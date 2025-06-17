@@ -12,25 +12,12 @@ function agregarProducto(elemento) {
     const id = elemento.dataset.id;
     const nombre = elemento.dataset.nombre;
     const precio = parseFloat(elemento.dataset.precio);
-    const stockDisponible = parseInt(elemento.dataset.stock); // Leer data-stock
+    // Ya no se lee stockDisponible de elemento.dataset.stock
 
     // Buscar si el producto ya está en la venta
     const productoExistente = productosVenta.find(p => p.id === id);
-    const cantidadActualEnCarrito = productoExistente ? productoExistente.cantidad : 0;
 
-    // Comprobación de Agotado (al intentar agregar la primera unidad)
-    if (stockDisponible <= 0 && !productoExistente) { // Solo si es <=0 y no está en carrito
-        alert("Este producto está agotado y no se puede agregar.");
-        // Opcional: añadir clase al elemento para feedback visual si no está ya
-        // elemento.classList.add('agotado');
-        return;
-    }
-
-    // Comprobación de Límite de Stock (antes de agregar o incrementar)
-    if (cantidadActualEnCarrito + 1 > stockDisponible) {
-        alert("No hay suficiente stock para agregar más unidades de este producto. Disponibles: " + stockDisponible);
-        return;
-    }
+    // Ya no hay validaciones de stock aquí, el backend se encargará.
 
     if (productoExistente) {
         productoExistente.cantidad++;
@@ -39,8 +26,8 @@ function agregarProducto(elemento) {
             id,
             nombre,
             precio,
-            cantidad: 1,
-            stockOriginal: stockDisponible // Guardar stock original aquí
+            cantidad: 1
+            // Ya no se guarda stockOriginal
         });
     }
 
@@ -94,28 +81,8 @@ function modificarCantidad(index, cambio) {
 
     const producto = productosVenta[index];
 
-    // Si se incrementa la cantidad, verificar stock
-    if (cambio > 0) {
-        if (!producto.stockOriginal && producto.stockOriginal !== 0) { // Comprobar si stockOriginal está definido
-             // Fallback: intentar leer del DOM si no se guardó. Esto no debería pasar con la Solución A.
-             const elementoDOM = document.querySelector(`.producto-card[data-id='${producto.id}']`);
-             if (elementoDOM && elementoDOM.dataset.stock) {
-                 producto.stockOriginal = parseInt(elementoDOM.dataset.stock);
-             } else {
-                 console.warn("No se pudo determinar el stock original para el producto ID:", producto.id);
-                 // Se podría optar por permitir el incremento o denegarlo si no hay info de stock.
-                 // Por seguridad, podríamos denegarlo si no hay stockOriginal.
-                 // alert("No se pudo verificar el stock. Intente agregar el producto de nuevo.");
-                 // return;
-                 // O permitirlo y que el backend lo valide:
-             }
-        }
-
-        if (producto.stockOriginal && (producto.cantidad + cambio > producto.stockOriginal)) {
-            alert("No hay suficiente stock para agregar más unidades de este producto. Disponibles: " + producto.stockOriginal);
-            return;
-        }
-    }
+    // Ya no hay validaciones de stock aquí, el backend se encargará.
+    // Simplemente se actualiza la cantidad.
 
     producto.cantidad += cambio;
 
