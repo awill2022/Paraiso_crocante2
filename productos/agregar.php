@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ruta_destino = $ruta_directorio_destino . $nuevo_nombre_foto;
 
             // Solo si no hay otros errores Y el directorio es escribible, intentar mover el archivo
-            if (empty($errores)) {
+       /*  if (empty($errores)) {
                 if (!is_writable($ruta_directorio_destino)) {
                     $errores[] = "Error de configuración: El directorio de imágenes no tiene permisos de escritura. Contacte al administrador.";
                 } elseif (move_uploaded_file($foto_temporal, $ruta_destino)) {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Este error podría ser por otros motivos además de permisos, ej. disco lleno.
                     $errores[] = "Error al subir la imagen. Inténtelo de nuevo o contacte al administrador si el problema persiste.";
                 }
-            }
+            }*/
         }
     } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_OK && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
         // Error real en la subida, no es que simplemente no se subió archivo
@@ -130,8 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/styles_productos.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/styles_productos.css">
 </head>
 <body>
 <div class="product-form-container">
