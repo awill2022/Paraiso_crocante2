@@ -47,7 +47,8 @@ $productos = $conn->query("SELECT p.*, c.nombre AS categoria_nombre FROM product
                          data-id="<?php echo $producto['id']; ?>"
                          data-categoria="<?php echo $producto['categoria_id']; ?>"
                          data-precio="<?php echo $producto['precio']; ?>"
-                         data-nombre="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                         data-nombre="<?php echo htmlspecialchars($producto['nombre']); ?>"
+                         data-stock="<?php echo htmlspecialchars($producto['stock']); ?>">
                         <div class="producto-imagen">
                             <img src="assets/img/productos/<?php echo $producto['foto'] ?: 'default.jpg'; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                         </div>

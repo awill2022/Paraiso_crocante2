@@ -12,9 +12,25 @@ function agregarProducto(elemento) {
     const id = elemento.dataset.id;
     const nombre = elemento.dataset.nombre;
     const precio = parseFloat(elemento.dataset.precio);
+    const stockDisponible = parseInt(elemento.dataset.stock); // Leer data-stock
 
     // Buscar si el producto ya está en la venta
     const productoExistente = productosVenta.find(p => p.id === id);
+    const cantidadActualEnCarrito = productoExistente ? productoExistente.cantidad : 0;
+
+    // Comprobación de Agotado (al intentar agregar la primera unidad)
+    if (stockDisponible <= 0 && !productoExistente) { // Solo si es <=0 y no está en carrito
+        alert("Este producto está agotado y no se puede agregar.");
+        // Opcional: añadir clase al elemento para feedback visual si no está ya
+        // elemento.classList.add('agotado');
+        return;
+    }
+
+    // Comprobación de Límite de Stock (antes de agregar o incrementar)
+    if (cantidadActualEnCarrito + 1 > stockDisponible) {
+        alert("No hay suficiente stock para agregar más unidades de este producto. Disponibles: " + stockDisponible);
+        return;
+    }
 
     if (productoExistente) {
         productoExistente.cantidad++;
@@ -23,7 +39,8 @@ function agregarProducto(elemento) {
             id,
             nombre,
             precio,
-            cantidad: 1
+            cantidad: 1,
+            stockOriginal: stockDisponible // Guardar stock original aquí
         });
     }
 
@@ -76,6 +93,30 @@ function modificarCantidad(index, cambio) {
     if (ventaEnProceso) return;
 
     const producto = productosVenta[index];
+
+    // Si se incrementa la cantidad, verificar stock
+    if (cambio > 0) {
+        if (!producto.stockOriginal && producto.stockOriginal !== 0) { // Comprobar si stockOriginal está definido
+             // Fallback: intentar leer del DOM si no se guardó. Esto no debería pasar con la Solución A.
+             const elementoDOM = document.querySelector(`.producto-card[data-id='${producto.id}']`);
+             if (elementoDOM && elementoDOM.dataset.stock) {
+                 producto.stockOriginal = parseInt(elementoDOM.dataset.stock);
+             } else {
+                 console.warn("No se pudo determinar el stock original para el producto ID:", producto.id);
+                 // Se podría optar por permitir el incremento o denegarlo si no hay info de stock.
+                 // Por seguridad, podríamos denegarlo si no hay stockOriginal.
+                 // alert("No se pudo verificar el stock. Intente agregar el producto de nuevo.");
+                 // return;
+                 // O permitirlo y que el backend lo valide:
+             }
+        }
+
+        if (producto.stockOriginal && (producto.cantidad + cambio > producto.stockOriginal)) {
+            alert("No hay suficiente stock para agregar más unidades de este producto. Disponibles: " + producto.stockOriginal);
+            return;
+        }
+    }
+
     producto.cantidad += cambio;
 
     if (producto.cantidad <= 0) {
@@ -121,6 +162,12 @@ function cancelarVenta() {
 
 // Función para finalizar la venta
 async function finalizarVenta() {
+    // 1. Validación Temprana de usuarioId
+    if (typeof usuarioId === 'undefined' || !usuarioId || usuarioId <= 0) {
+        alert('Error: Sesión de usuario inválida. Por favor, inicie sesión de nuevo.');
+        return;
+    }
+
     if (ventaEnProceso || productosVenta.length === 0) {
         alert('No hay productos en la venta para procesar.');
         return;
@@ -159,11 +206,18 @@ async function finalizarVenta() {
             productosVenta = [];
             actualizarVenta();
         } else {
-            throw new Error(data.message || 'No se pudo completar la venta.');
+            // Usar data.message si está disponible, sino un mensaje genérico
+            throw new Error(data.message || 'Respuesta no exitosa del servidor.');
         }
     } catch (error) {
         console.error('Error al procesar la venta:', error);
-        alert(`Error al procesar la venta: ${error.message}`);
+        // 2. Mejora en Mensajes de Error
+        if (error instanceof TypeError) {
+            alert('Error de conexión: No se pudo contactar con el servidor. Verifique su conexión a internet e inténtelo de nuevo.');
+        } else {
+            // error.message contendrá 'Respuesta no exitosa del servidor.' o el mensaje específico de data.message
+            alert(`Error al finalizar la venta: ${error.message || 'Ocurrió un error desconocido.'}`);
+        }
     } finally {
         ventaEnProceso = false;
         cobrarBtn.innerHTML = '<i class="fas fa-cash-register"></i> Cobrar';
