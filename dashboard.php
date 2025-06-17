@@ -165,18 +165,39 @@ $productosBajoStock = $conn->query("SELECT nombre, stock, 5 AS stock_minimo FROM
                         <span>➕</span>
                         <span>Nueva Venta</span>
                     </a>
-                    <a href="gastos/agregar.php" class="action-btn">
-                        <span>💸</span>
-                        <span>Registrar Gasto</span>
-                    </a>
-                    <a href="productos/agregar.php" class="action-btn">
+                    <a href="productos/agregar.php" class="action-btn"> <!-- Productos -->
                         <span>🍓</span>
                         <span>Agregar Producto</span>
                     </a>
-                    <a href="reportes/rentabilidad.php" class="action-btn">
+                     <a href="productos/listar.php" class="action-btn"> <!-- Productos -->
+                        <span>📋</span>
+                        <span>Gestionar Productos</span>
+                    </a>
+                    <a href="insumos/agregar_insumo.php" class="action-btn"> <!-- Insumos -->
+                        <span>🌾</span>
+                        <span>Agregar Insumo</span>
+                    </a>
+                    <a href="insumos/listar_insumos.php" class="action-btn"> <!-- Insumos -->
+                        <span>📦</span>
+                        <span>Gestionar Insumos</span>
+                    </a>
+                    <a href="gastos/registrar_gasto.php" class="action-btn"> <!-- Gastos -->
+                        <span>💸</span>
+                        <span>Registrar Gasto</span>
+                    </a>
+                    <a href="gastos/listar_gastos.php" class="action-btn"> <!-- Gastos -->
+                        <span>🧾</span>
+                        <span>Listar Gastos</span>
+                    </a>
+                    <a href="gastos/categorias_listar.php" class="action-btn"> <!-- Gastos -->
+                        <span>🏷️</span>
+                        <span>Categorías de Gasto</span>
+                    </a>
+                    <a href="reportes/rentabilidad.php" class="action-btn"> <!-- Reportes -->
                         <span>📊</span>
                         <span>Ver Reportes</span>
                     </a>
+                    <!-- Se podrían añadir más acciones rápidas aquí -->
                 </div>
             </section>
         </div>
