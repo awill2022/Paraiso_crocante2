@@ -17,11 +17,12 @@ $categoria_id_persistente = '';
 $precio_persistente = '';
 // $stock_persistente = ''; // Eliminado
 $descripcion_persistente = '';
+$instrucciones_persistente = ''; // Nuevo para instrucciones
 $foto_actual = ''; // Para mostrar la imagen actual
 
 // Variables para insumos
-$lista_insumos_php = []; // Todos los insumos disponibles: id, nombre, unidad_medida
-$insumos_vinculados_php = []; // Insumos ya vinculados a este producto: insumo_id, cantidad_consumida
+$lista_insumos_php = [];
+$insumos_vinculados_php = [];
 
 // --- Carga de Insumos Disponibles ---
 try {
@@ -60,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
             $precio_persistente = number_format($producto['precio'], 2, '.', '');
             // $stock_persistente = $producto['stock']; // Eliminado
             $descripcion_persistente = $producto['descripcion'];
+            $instrucciones_persistente = $producto['instrucciones_preparacion'] ?? ''; // Nuevo
             $foto_actual = $producto['foto'];
         } else {
             header("Location: listar.php?error=not_found");
@@ -94,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $precio_persistente = $_POST['precio'];
     // $stock_persistente = $_POST['stock']; // Eliminado
     $descripcion_persistente = trim($_POST['descripcion']);
+    $instrucciones_persistente = trim($_POST['instrucciones_preparacion']); // Nuevo
     $foto_actual = $_POST['foto_actual']; // Mantener la foto actual si no se sube una nueva
 
     // Validaciones del producto principal (similar a agregar.php)
@@ -109,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     // Stock del producto ya no se valida aquí
 
     if (strlen($descripcion_persistente) > 1000) $errores[] = "Descripción demasiado larga.";
+    if (strlen($instrucciones_persistente) > 65535) $errores[] = "Las instrucciones de preparación son demasiado largas.";
 
     // Manejo de la nueva foto (similar a agregar.php)
     $nueva_foto_nombre = $foto_actual;
@@ -173,9 +177,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     if (empty($errores) && $producto_id > 0) {
         $conn->begin_transaction();
         try {
-            // 1. Actualizar producto principal (sin stock)
-            $stmt_update_prod = $conn->prepare("UPDATE productos SET nombre = ?, categoria_id = ?, precio = ?, descripcion = ?, foto = ? WHERE id = ?");
-            $stmt_update_prod->bind_param("sidssi", $nombre_persistente, $categoria_id_persistente, $precio_persistente, $descripcion_persistente, $nueva_foto_nombre, $producto_id);
+            // 1. Actualizar producto principal (sin stock, con instrucciones)
+            $stmt_update_prod = $conn->prepare("UPDATE productos SET nombre = ?, categoria_id = ?, precio = ?, descripcion = ?, foto = ?, instrucciones_preparacion = ? WHERE id = ?");
+            $stmt_update_prod->bind_param("sidsssi", $nombre_persistente, $categoria_id_persistente, $precio_persistente, $descripcion_persistente, $nueva_foto_nombre, $instrucciones_persistente, $producto_id);
             $stmt_update_prod->execute();
             $stmt_update_prod->close();
 
@@ -276,7 +280,12 @@ $categorias_result = $conn->query("SELECT * FROM categorias"); // Para el select
 
         <div class="product-form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion"><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
+            <textarea id="descripcion" name="descripcion" rows="3"><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
+        </div>
+
+        <div class="product-form-group">
+            <label for="instrucciones_preparacion">Instrucciones de Preparación (Opcional):</label>
+            <textarea id="instrucciones_preparacion" name="instrucciones_preparacion" rows="5"><?php echo htmlspecialchars($instrucciones_persistente); ?></textarea>
         </div>
 
         <div class="product-form-group">

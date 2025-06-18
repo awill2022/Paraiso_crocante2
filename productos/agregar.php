@@ -18,7 +18,10 @@ $descripcion_persistente = '';
 
 // Variables para insumos
 $lista_insumos_php = [];
-$insumos_seleccionados_persistentes = []; // Para repoblar en caso de error [{insumo_id: X, cantidad_consumida: Y}]
+$insumos_seleccionados_persistentes = [];
+
+// Variable para persistencia de instrucciones
+$instrucciones_persistente = '';
 
 // --- Carga de Insumos Disponibles ---
 try {
@@ -42,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $precio_persistente = $_POST['precio'];
     // $stock_persistente = $_POST['stock']; // Eliminado
     $descripcion_persistente = trim($_POST['descripcion']);
+    $instrucciones_persistente = trim($_POST['instrucciones_preparacion']); // Nuevo campo
     $foto = 'default.jpg';
 
     // Recoger datos de insumos para persistencia en caso de error
@@ -90,6 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Stock del producto ya no se valida aquí
 
+    if (strlen($instrucciones_persistente) > 65535) { // TEXT max length in MySQL
+        $errores[] = "Las instrucciones de preparación son demasiado largas.";
+    }
+
     // 2. Validación de subida de imagen (foto)
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK && $_FILES['foto']['size'] > 0) {
         $nombre_archivo_original = $_FILES['foto']['name'];
@@ -114,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ruta_destino = $ruta_directorio_destino . $nuevo_nombre_foto;
 
             // Solo si no hay otros errores Y el directorio es escribible, intentar mover el archivo
-       /*  if (empty($errores)) {
+            if (empty($errores)) {
                 if (!is_writable($ruta_directorio_destino)) {
                     $errores[] = "Error de configuración: El directorio de imágenes no tiene permisos de escritura. Contacte al administrador.";
                 } elseif (move_uploaded_file($foto_temporal, $ruta_destino)) {
@@ -123,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Este error podría ser por otros motivos además de permisos, ej. disco lleno.
                     $errores[] = "Error al subir la imagen. Inténtelo de nuevo o contacte al administrador si el problema persiste.";
                 }
-            }*/
+            }
         }
     } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_OK && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
         // Error real en la subida, no es que simplemente no se subió archivo
@@ -154,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errores)) {
         $conn->begin_transaction();
         try {
-            // Insertar producto principal (sin stock)
-            $stmt_producto = $conn->prepare("INSERT INTO productos (nombre, categoria_id, precio, descripcion, foto) VALUES (?, ?, ?, ?, ?)");
-            $stmt_producto->bind_param("sidds", $nombre_persistente, $categoria_id_persistente, $precio_persistente, $descripcion_persistente, $foto);
+            // Insertar producto principal (sin stock, con instrucciones)
+            $stmt_producto = $conn->prepare("INSERT INTO productos (nombre, categoria_id, precio, descripcion, foto, instrucciones_preparacion) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt_producto->bind_param("siddss", $nombre_persistente, $categoria_id_persistente, $precio_persistente, $descripcion_persistente, $foto, $instrucciones_persistente);
             $stmt_producto->execute();
             $nuevo_producto_id = $conn->insert_id;
             $stmt_producto->close();
@@ -193,8 +201,8 @@ $categorias_result = $conn->query("SELECT * FROM categorias"); // Para el select
 <head>
     <meta charset="UTF-8">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/styles_productos.css">
     <style> /* Mismos estilos para insumos que en editar_producto.php */
         #insumos-container .insumo-fila { display: flex; align-items: center; margin-bottom: 10px; }
         #insumos-container .insumo-fila select,
@@ -249,7 +257,12 @@ $categorias_result = $conn->query("SELECT * FROM categorias"); // Para el select
         
         <div class="product-form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion"><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
+            <textarea id="descripcion" name="descripcion" rows="3"><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
+        </div>
+
+        <div class="product-form-group">
+            <label for="instrucciones_preparacion">Instrucciones de Preparación (Opcional):</label>
+            <textarea id="instrucciones_preparacion" name="instrucciones_preparacion" rows="5"><?php echo htmlspecialchars($instrucciones_persistente); ?></textarea>
         </div>
         
         <div class="product-form-group">

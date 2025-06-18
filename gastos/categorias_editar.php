@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Verificar unicidad del nombre (excluyendo la categoría actual)
         try {
-            $stmt_check = $conn->prepare("SELECT id FROM categorias_gastos WHERE nombre = ? AND id != ?");
+            $stmt_check = $conn->prepare("SELECT id FROM categorias_gasto WHERE nombre = ? AND id != ?");
             $stmt_check->bind_param("si", $nombre_persistente, $categoria_id);
             $stmt_check->execute();
             $result_check = $stmt_check->get_result();
