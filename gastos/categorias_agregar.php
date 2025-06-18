@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errores)) {
         try {
-            $stmt = $conn->prepare("INSERT INTO categorias_gasto (nombre, descripcion) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO categorias_gastos (nombre, descripcion) VALUES (?, ?)");
             $stmt->bind_param("ss", $nombre_persistente, $descripcion_persistente);
 
             if ($stmt->execute()) {
