@@ -50,7 +50,7 @@ try {
                 u.nombre AS usuario_nombre,
                 u.username AS usuario_username
             FROM gastos g
-            JOIN categorias_gasto cg ON g.categoria_id = cg.id
+            JOIN categorias_gastos cg ON g.categoria_id = cg.id
             JOIN usuarios u ON g.usuario_id = u.id
             ORDER BY g.fecha DESC, g.id DESC";
 
