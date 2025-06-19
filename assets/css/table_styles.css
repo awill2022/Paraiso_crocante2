@@ -9,6 +9,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow-x: auto; /* Permitir scroll horizontal si la tabla es muy ancha */
 }
 
 /* 9. Contenedor de Botones de Acción de Página (ej. "Agregar Nuevo") */
@@ -106,6 +107,8 @@ table.data-table {
     border: 1px solid #e9ecef; /* Borde más suave */
     vertical-align: middle;
     color: #333;
+    word-break: break-word; /* Permitir que palabras largas se dividan */
+    /* hyphens: auto; */ /* Opcional, para mejor corte silábico si lang está definido */
 }
 
 /* 5. Filas de Tabla */
