@@ -173,6 +173,12 @@ $productosBajoStock = $conn->query("SELECT nombre, stock, 5 AS stock_minimo FROM
                         <span>📋</span>
                         <span>Gestionar Productos</span>
                     </a>
+                    <?php if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'administrador'): ?>
+                    <a href="admin/usuarios/listar.php" class="action-btn"> <!-- Admin Usuarios -->
+                        <span>🧑‍💼</span>
+                        <span>Administrar Usuarios</span>
+                    </a>
+                    <?php endif; ?>
                     <a href="insumos/agregar_insumo.php" class="action-btn"> <!-- Insumos -->
                         <span>🌾</span>
                         <span>Agregar Insumo</span>
