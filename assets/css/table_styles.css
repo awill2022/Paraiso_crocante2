@@ -1,0 +1,206 @@
+/* General Table Styles for Admin/Listing Pages */
+
+/* 1. Contenedor Principal de la Tabla */
+.table-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px; /* Aumentado para acomodar más columnas si es necesario */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* 9. Contenedor de Botones de Acción de Página (ej. "Agregar Nuevo") */
+.page-action-buttons {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+/* Botón genérico para estas acciones de página, si se usa <a> como botón */
+.page-action-buttons a.btn-main,
+.page-action-buttons button.btn-main { /* Si se usa button */
+    background-color: #007bff; /* Azul primario Bootstrap-like */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    display: inline-block; /* Para que el padding y margin funcionen bien */
+}
+.page-action-buttons a.btn-main:hover,
+.page-action-buttons button.btn-main:hover {
+    background-color: #0056b3;
+}
+/* Botón secundario (ej. "Volver al Dashboard") */
+.page-action-buttons a.btn-secondary,
+.page-action-buttons button.btn-secondary {
+    background-color: #6c757d; /* Gris secundario Bootstrap-like */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+.page-action-buttons a.btn-secondary:hover,
+.page-action-buttons button.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+
+/* 10. Alertas de Feedback */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+.alert.success { /* Verde */
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert.error { /* Rojo */
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert.info { /* Azul */
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+.alert.warning { /* Amarillo */
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+/* 2. Tabla Principal */
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9em; /* Ligeramente más pequeño para más datos */
+}
+
+/* 3. Encabezados de Tabla */
+.data-table th {
+    background-color: #f8f9fa; /* Gris muy claro Bootstrap-like */
+    color: #495057; /* Texto gris oscuro */
+    padding: 12px 15px; /* Buen padding */
+    text-align: left;
+    border-bottom: 2px solid #dee2e6; /* Borde inferior más grueso */
+    font-weight: 600; /* Semi-bold */
+}
+
+/* 4. Celdas de Tabla */
+.data-table td {
+    padding: 10px 15px;
+    border: 1px solid #e9ecef; /* Borde más suave */
+    vertical-align: middle;
+    color: #333;
+}
+
+/* 5. Filas de Tabla */
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cebreado sutil */
+}
+.data-table tbody tr:hover {
+    background-color: #f1f1f1; /* Hover sutil */
+}
+
+/* Utilidades de alineación para th y td */
+.data-table .text-left { text-align: left; }
+.data-table .text-center { text-align: center; }
+.data-table .text-right { text-align: right; }
+
+
+/* 6. Botones/Enlaces de Acción Dentro de la Tabla */
+.action-links a,
+.action-links button { /* Para botones si se usan en el futuro */
+    margin: 0 4px; /* Espacio entre iconos/botones */
+    text-decoration: none;
+    color: #333; /* Color base para iconos */
+    padding: 5px; /* Área clickeable */
+    border-radius: 3px;
+    border: none; /* Si son botones */
+    background-color: transparent; /* Si son botones */
+    cursor: pointer;
+}
+
+.action-links a:hover,
+.action-links button:hover {
+    opacity: 0.7;
+}
+
+/* Iconos FontAwesome (asumiendo que se usa la clase .fas) */
+.action-links .fas {
+    font-size: 1.1em; /* Tamaño del icono */
+}
+
+/* Colores específicos para acciones comunes */
+.action-links .edit .fas { color: #007bff; } /* Azul */
+.action-links .delete .fas { color: #dc3545; } /* Rojo */
+.action-links .activate .fas,
+.action-links .view-recipe .fas { color: #28a745; } /* Verde */
+.action-links .deactivate .fas { color: #ffc107; } /* Amarillo/Naranja */
+.action-links .view .fas { color: #17a2b8; } /* Cyan/Info */
+
+
+/* 7. Miniaturas de Imágenes */
+.thumbnail-photo {
+    max-width: 50px; /* Reducido ligeramente */
+    max-height: 50px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    object-fit: cover; /* Para que la imagen cubra sin distorsionarse */
+    display: block; /* Para centrar si es necesario o evitar espacio extra */
+    margin: auto; /* Si se quiere centrar en la celda */
+}
+
+/* 8. Indicadores de Estado */
+.status-active, .status-inactive {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px; /* Píldora */
+    font-size: 0.85em;
+    display: inline-block;
+}
+.status-active {
+    color: #1a642d;
+    background-color: #d4edda; /* Verde pastel */
+}
+.status-inactive {
+    color: #721c24;
+    background-color: #f8d7da; /* Rojo pastel */
+}
+
+/* Responsive considerations for tables (optional, can be expanded) */
+@media (max-width: 768px) {
+    .data-table th, .data-table td {
+        font-size: 0.85em; /* Reducir fuente en pantallas pequeñas */
+        padding: 8px 10px;
+    }
+    .page-action-buttons {
+        text-align: left; /* Alinear a la izquierda en móvil */
+    }
+    .page-action-buttons a.btn-main,
+    .page-action-buttons button.btn-main,
+    .page-action-buttons a.btn-secondary,
+    .page-action-buttons button.btn-secondary {
+        display: block; /* Hacerlos full-width */
+        margin-bottom: 10px;
+        width: calc(100% - 20px); /* Ajustar por padding si es necesario */
+        margin-left: 0;
+    }
+    .page-action-buttons a.btn-secondary {
+        margin-top: 10px;
+    }
+}

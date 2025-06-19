@@ -31,41 +31,32 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Lista de Insumos</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <!-- Podríamos crear insumos_styles.css o usar styles_productos.css si es compatible -->
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
-    <style>
-        /* Estilos adicionales o específicos para la tabla de insumos */
-        .table-container { max-width: 900px; margin: 40px auto; padding: 20px; }
-        .table-insumos { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .table-insumos th, .table-insumos td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        .table-insumos th { background-color: #f2f2f2; }
-        .table-insumos tr:nth-child(even) { background-color: #f9f9f9; }
-        .text-right { text-align: right !important; }
-        .action-links a { margin-right: 10px; text-decoration: none; }
-        .add-button-container { margin-bottom: 20px; text-align: right; }
-    </style>
+    <!-- <link rel="stylesheet" href="../assets/css/styles_productos.css"> -->
+    <link rel="stylesheet" href="../assets/css/table_styles.css">
 </head>
 <body>
-    <div class="table-container product-table-container"> <!-- Reutilizando clases de productos -->
+    <div class="table-container">
         <h1>Lista de Insumos</h1>
 
-        <div class="add-button-container">
-            <a href="agregar_insumo.php" class="product-btn">Agregar Nuevo Insumo</a>
-            <a href="../dashboard.php" class="product-btn cancel" style="margin-left:10px;">Volver al Dashboard</a>
+        <div class="page-action-buttons">
+            <a href="agregar_insumo.php" class="btn-main">Agregar Nuevo Insumo</a>
+            <a href="../dashboard.php" class="btn-secondary">Volver al Dashboard</a>
         </div>
 
+        <?php if ($success_message): ?>
+            <div class="alert success"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php endif; ?>
+        <?php if ($error_message): ?>
+            <div class="alert error"><?php echo htmlspecialchars($error_message); ?></div>
+        <?php endif; ?>
         <?php if ($error_db): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_db); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_db); ?></div>
         <?php endif; ?>
 
-        <?php if (isset($_GET['success']) && $_GET['success'] == '1'): ?>
-            <div class="product-alert success">Insumo agregado/actualizado correctamente.</div>
-        <?php endif; ?>
-
-        <?php if (empty($insumos) && !$error_db): ?>
-            <div class="product-alert info">No hay insumos registrados.</div>
-        <?php else: ?>
-            <table class="table-insumos product-table"> <!-- Reutilizando clases de productos -->
+        <?php if (empty($insumos) && !$error_db && !$error_message): ?>
+            <div class="alert info">No hay insumos registrados.</div>
+        <?php elseif (!empty($insumos)): ?>
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>ID</th>
