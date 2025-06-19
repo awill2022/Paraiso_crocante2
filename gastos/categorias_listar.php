@@ -60,36 +60,32 @@ try {
     <meta charset="UTF-8">
     <title>Categorías de Gasto</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css"> <!-- Reutilizar si es adecuado -->
-    <style>
-        .table-container { max-width: 900px; margin: 40px auto; padding: 20px; }
-        .action-links a { margin-right: 10px; text-decoration: none; }
-        .add-button-container { margin-bottom: 20px; text-align: right; }
-    </style>
+    <!-- <link rel="stylesheet" href="../assets/css/styles_productos.css"> -->
+    <link rel="stylesheet" href="../assets/css/table_styles.css">
 </head>
 <body>
-    <div class="table-container product-table-container">
+    <div class="table-container">
         <h1>Categorías de Gasto</h1>
 
-        <div class="add-button-container">
-            <a href="categorias_agregar.php" class="product-btn">Agregar Nueva Categoría</a>
-            <a href="../dashboard.php" class="product-btn cancel" style="margin-left:10px;">Volver al Dashboard</a>
+        <div class="page-action-buttons">
+            <a href="categorias_agregar.php" class="btn-main">Agregar Nueva Categoría</a>
+            <a href="../dashboard.php" class="btn-secondary">Volver al Dashboard</a>
         </div>
 
         <?php if ($success_message): ?>
-            <div class="product-alert success"><?php echo htmlspecialchars($success_message); ?></div>
+            <div class="alert success"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
         <?php if ($error_message): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_message); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
         <?php if ($error_db): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_db); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_db); ?></div>
         <?php endif; ?>
 
         <?php if (empty($categorias_gasto) && !$error_db && !$error_message): ?>
-            <div class="product-alert info">No hay categorías de gasto registradas.</div>
+            <div class="alert info">No hay categorías de gasto registradas.</div>
         <?php elseif (!empty($categorias_gasto)): ?>
-            <table class="product-table">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>ID</th>

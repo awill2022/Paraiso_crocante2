@@ -74,40 +74,32 @@ try {
     <meta charset="UTF-8">
     <title>Lista de Gastos</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css"> <!-- Reutilizar si es adecuado -->
-    <style>
-        .table-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
-        .action-links a { margin-right: 10px; text-decoration: none; }
-        .add-button-container { margin-bottom: 20px; text-align: right; }
-        .comprobante-link { display: inline-block; padding: 3px 6px; border: 1px solid #007bff; border-radius:3px; color: #007bff; text-decoration:none; }
-        .comprobante-link:hover { background-color: #007bff; color:white; }
-        .text-center { text-align:center; }
-        .text-right { text-align:right; }
-    </style>
+    <!-- <link rel="stylesheet" href="../assets/css/styles_productos.css"> -->
+    <link rel="stylesheet" href="../assets/css/table_styles.css">
 </head>
 <body>
-    <div class="table-container product-table-container">
+    <div class="table-container">
         <h1>Lista de Gastos Registrados</h1>
 
-        <div class="add-button-container">
-            <a href="registrar_gasto.php" class="product-btn">Registrar Nuevo Gasto</a>
-            <a href="../dashboard.php" class="product-btn cancel" style="margin-left:10px;">Volver al Dashboard</a>
+        <div class="page-action-buttons">
+            <a href="registrar_gasto.php" class="btn-main">Registrar Nuevo Gasto</a>
+            <a href="../dashboard.php" class="btn-secondary">Volver al Dashboard</a>
         </div>
 
         <?php if ($success_message): ?>
-            <div class="product-alert success"><?php echo htmlspecialchars($success_message); ?></div>
+            <div class="alert success"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
         <?php if ($error_message): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_message); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
         <?php if ($error_db): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_db); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_db); ?></div>
         <?php endif; ?>
 
         <?php if (empty($gastos) && !$error_db && !$error_message): ?>
-            <div class="product-alert info">No hay gastos registrados.</div>
+            <div class="alert info">No hay gastos registrados.</div>
         <?php elseif (!empty($gastos)): ?>
-            <table class="product-table">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>ID</th>

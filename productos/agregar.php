@@ -201,8 +201,8 @@ $categorias_result = $conn->query("SELECT * FROM categorias"); // Para el select
 <head>
     <meta charset="UTF-8">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/styles_productos.css">
     <style> /* Mismos estilos para insumos que en editar_producto.php */
         #insumos-container .insumo-fila { display: flex; align-items: center; margin-bottom: 10px; }
         #insumos-container .insumo-fila select,

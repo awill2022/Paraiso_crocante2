@@ -19,7 +19,7 @@ if (isset($_GET['success'])) {
         'added' => 'Producto agregado correctamente.',
         'updated' => 'Producto actualizado correctamente.',
         'estado_cambiado' => 'Estado del producto cambiado correctamente.',
-        'deleted' => 'Producto eliminado correctamente.' // Aunque no se implementa delete ahora
+        'product_deleted' => 'Producto eliminado correctamente.'
     ];
     if (array_key_exists($key, $success_map)) {
         $success_message = $success_map[$key];
@@ -29,9 +29,12 @@ if (isset($_GET['error'])) {
     $key = htmlspecialchars($_GET['error']);
     $error_map = [
         'not_found' => 'El producto especificado no fue encontrado.',
-        'db_error' => 'Ocurrió un error en la base de datos.',
+        'db_error' => 'Ocurrió un error en la base de datos al procesar la solicitud.',
         'estado_invalido' => 'El estado proporcionado para el cambio es inválido.',
-        'id_invalido' => 'ID de producto inválido.'
+        'id_invalido' => 'ID de producto inválido.',
+        'no_id' => 'No se especificó ID de producto.',
+        'product_in_use' => 'El producto no puede ser eliminado porque tiene ventas asociadas.',
+        'delete_failed' => 'No se pudo eliminar el producto o sus datos asociados.'
     ];
      if (array_key_exists($key, $error_map)) {
         $error_message = $error_map[$key];
@@ -63,64 +66,60 @@ try {
     <meta charset="UTF-8">
     <title>Lista de Productos</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
-    <style>
-        .product-photo-thumbnail { max-width: 60px; max-height: 60px; border-radius: 4px; }
-        .status-active { color: green; font-weight: bold; }
-        .status-inactive { color: red; font-weight: bold; }
-    </style>
+    <!-- <link rel="stylesheet" href="../assets/css/styles_productos.css"> -->
+    <link rel="stylesheet" href="../assets/css/table_styles.css">
 </head>
 <body>
-    <div class="product-table-container"> <!-- Reutilizando clase de estilos_productos.css -->
+    <div class="table-container">
         <h1>Lista de Productos</h1>
 
-        <div class="add-button-container" style="text-align: right; margin-bottom: 20px;">
-            <a href="agregar.php" class="product-btn">Agregar Nuevo Producto</a>
-            <a href="../dashboard.php" class="product-btn cancel" style="margin-left:10px;">Volver al Dashboard</a>
+        <div class="page-action-buttons">
+            <a href="agregar.php" class="btn-main">Agregar Nuevo Producto</a>
+            <a href="../dashboard.php" class="btn-secondary">Volver al Dashboard</a>
         </div>
 
         <?php if ($success_message): ?>
-            <div class="product-alert success"><?php echo htmlspecialchars($success_message); ?></div>
+            <div class="alert success"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
         <?php if ($error_message): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_message); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
         <?php if ($error_db): ?>
-            <div class="product-alert error"><?php echo htmlspecialchars($error_db); ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_db); ?></div>
         <?php endif; ?>
 
         <?php if (empty($productos) && !$error_db && !$error_message): ?>
-            <div class="product-alert info">No hay productos registrados.</div>
+            <div class="alert info">No hay productos registrados.</div>
         <?php elseif (!empty($productos)): ?>
-            <table class="product-table">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Foto</th>
+                        <th class="text-center">Foto</th>
                         <th>Nombre</th>
                         <th>Categoría</th>
-                        <th style="text-align:right;">Precio</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th class="text-right">Precio</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($productos as $producto): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($producto['id']); ?></td>
-                            <td>
+                            <td class="text-center">
                                 <?php if (!empty($producto['foto']) && $producto['foto'] !== 'default.jpg'): ?>
-                                    <img src="../assets/img/productos/<?php echo htmlspecialchars($producto['foto']); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" class="product-photo-thumbnail">
+                                    <img src="../assets/img/productos/<?php echo htmlspecialchars($producto['foto']); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" class="thumbnail-photo">
                                 <?php else: ?>
-                                    <img src="../assets/img/productos/default.jpg" alt="Sin imagen" class="product-photo-thumbnail">
+                                    <img src="../assets/img/productos/default.jpg" alt="Sin imagen" class="thumbnail-photo">
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
                             <td><?php echo htmlspecialchars($producto['categoria_nombre'] ?? 'N/A'); ?></td>
-                            <td style="text-align:right;">$<?php echo htmlspecialchars(number_format($producto['precio'], 2)); ?></td>
-                            <td>
+                            <td class="text-right">$<?php echo htmlspecialchars(number_format($producto['precio'], 2)); ?></td>
+                            <td class="text-center">
                                 <?php if ($producto['activo']): ?>
-                                    <span class="status-active">Activo</span>
+                                    <span class="status status-active">Activo</span>
                                 <?php else: ?>
                                     <span class="status-inactive">Inactivo</span>
                                 <?php endif; ?>
@@ -141,9 +140,11 @@ try {
                                     </a>
                                 <?php endif; ?>
                                 <a href="ver_receta.php?id=<?php echo $producto['id']; ?>" class="product-btn-icon view-recipe" title="Ver Receta (Insumos)"><i class="fas fa-receipt"></i></a>
-                                <!-- Futuro botón de eliminar
-                                <a href="eliminar_producto.php?id=<?php echo $producto['id']; ?>" class="product-btn-icon delete" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este producto? Esto es irreversible.');"><i class="fas fa-trash"></i></a>
-                                -->
+                                <a href="eliminar_producto.php?id=<?php echo $producto['id']; ?>"
+                                   class="product-btn-icon delete" title="Eliminar Producto"
+                                   onclick="return confirm('¿Está seguro de que desea ELIMINAR este producto?\n\nEsta acción no se puede deshacer y solo se permitirá si el producto no tiene ventas asociadas.');">
+                                   <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
