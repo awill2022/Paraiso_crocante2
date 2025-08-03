@@ -26,7 +26,7 @@ $success_key = '';
 
 try {
     // 1. Verificar si la categoría de gasto existe
-    $stmt_check_exist = $conn->prepare("SELECT id FROM categorias_gasto WHERE id = ?");
+    $stmt_check_exist = $conn->prepare("SELECT id FROM categorias_gastos WHERE id = ?");
     $stmt_check_exist->bind_param("i", $categoria_gasto_id);
     $stmt_check_exist->execute();
     $result_check_exist = $stmt_check_exist->get_result();
@@ -51,7 +51,7 @@ try {
         $error_key = 'category_in_use';
     } else {
         // La categoría no está en uso, proceder a eliminar.
-        $stmt_delete = $conn->prepare("DELETE FROM categorias_gasto WHERE id = ?");
+        $stmt_delete = $conn->prepare("DELETE FROM categorias_gastos WHERE id = ?");
         $stmt_delete->bind_param("i", $categoria_gasto_id);
 
         if ($stmt_delete->execute()) {

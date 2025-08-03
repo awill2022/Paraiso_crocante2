@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // Configuración de la aplicación
 define('DB_HOST', 'localhost');
-define('DB_USER', 'paraiso');
-define('DB_PASS', 'paraiso');
-define('DB_NAME', 'paraisocrocante');
+define('DB_USER', 'parahyvc_paraiso');
+define('DB_PASS', '@paraiso2025');
+define('DB_NAME', 'parahyvc_paraisocrocante');
 
 // Iniciar sesión
 if (session_status() == PHP_SESSION_NONE) {

@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Verificar unicidad del nombre (excluyendo la categoría actual)
         try {
-            $stmt_check = $conn->prepare("SELECT id FROM categorias_gasto WHERE nombre = ? AND id != ?");
+            $stmt_check = $conn->prepare("SELECT id FROM categorias_gastos WHERE nombre = ? AND id != ?");
             $stmt_check->bind_param("si", $nombre_persistente, $categoria_id);
             $stmt_check->execute();
             $result_check = $stmt_check->get_result();
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errores)) {
         try {
-            $stmt = $conn->prepare("UPDATE categorias_gasto SET nombre = ?, descripcion = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE categorias_gastos SET nombre = ?, descripcion = ? WHERE id = ?");
             $stmt->bind_param("ssi", $nombre_persistente, $descripcion_persistente, $categoria_id);
 
             if ($stmt->execute()) {
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') { // Cargar datos para el formulario (solo en GET inicial)
     if ($categoria_id > 0) {
         try {
-            $stmt_load = $conn->prepare("SELECT nombre, descripcion FROM categorias_gasto WHERE id = ?");
+            $stmt_load = $conn->prepare("SELECT nombre, descripcion FROM categorias_gastos WHERE id = ?");
             $stmt_load->bind_param("i", $categoria_id);
             $stmt_load->execute();
             $result_load = $stmt_load->get_result();

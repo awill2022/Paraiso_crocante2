@@ -10,7 +10,7 @@ $conn = $db->getConnection();
 // Cargar categorías de gasto para el selector
 $categorias_gasto = [];
 try {
-    $result_cat = $conn->query("SELECT id, nombre FROM categorias_gasto ORDER BY nombre ASC");
+    $result_cat = $conn->query("SELECT id, nombre FROM categorias_gastos ORDER BY nombre ASC");
     if ($result_cat) {
         while ($row_cat = $result_cat->fetch_assoc()) {
             $categorias_gasto[] = $row_cat;
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "Debe seleccionar una categoría válida.";
     } else {
         // Verificar si la categoría existe
-        $stmt_check_cat = $conn->prepare("SELECT id FROM categorias_gasto WHERE id = ?");
+        $stmt_check_cat = $conn->prepare("SELECT id FROM categorias_gastos WHERE id = ?");
         $stmt_check_cat->bind_param("i", $categoria_id_persistente);
         $stmt_check_cat->execute();
         if ($stmt_check_cat->get_result()->num_rows === 0) {

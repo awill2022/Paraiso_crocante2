@@ -118,9 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generar un nombre único para la imagen
             $foto_temporal = $_FILES['foto']['tmp_name'];
             $nuevo_nombre_foto = 'producto-' . time() . '.' . $extension_archivo;
-            $ruta_directorio_destino = '../../assets/img/productos/';
+            //$ruta_directorio_destino = '../../assets/img/productos/';
+            $ruta_directorio_destino = $_SERVER['DOCUMENT_ROOT'] . '/paraiso_crocante/assets/img/productos/';
             $ruta_destino = $ruta_directorio_destino . $nuevo_nombre_foto;
-
+            error_log("Temp file: " . $foto_temporal);
+            error_log("Destino: " . $ruta_destino);
             // Solo si no hay otros errores Y el directorio es escribible, intentar mover el archivo
             if (empty($errores)) {
                 if (!is_writable($ruta_directorio_destino)) {
@@ -201,8 +203,8 @@ $categorias_result = $conn->query("SELECT * FROM categorias"); // Para el select
 <head>
     <meta charset="UTF-8">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/styles_productos.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/styles_productos.css">
     <style> /* Mismos estilos para insumos que en editar_producto.php */
         #insumos-container .insumo-fila { display: flex; align-items: center; margin-bottom: 10px; }
         #insumos-container .insumo-fila select,

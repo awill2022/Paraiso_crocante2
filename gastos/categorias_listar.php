@@ -40,7 +40,7 @@ if (isset($_GET['error'])) {
 
 
 try {
-    $result = $conn->query("SELECT id, nombre, descripcion FROM categorias_gasto ORDER BY nombre ASC");
+    $result = $conn->query("SELECT id, nombre, descripcion FROM categorias_gastos ORDER BY nombre ASC");
     if ($result) {
         while ($row = $result->fetch_assoc()) {
             $categorias_gasto[] = $row;

@@ -8,16 +8,25 @@
 
 body {
     background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-image: url('../img/fresas-background.jpg');
-    background-size: cover;
+    background-size: contain;
     background-position: center;
-    background-blend-mode: overlay;
 }
-
+/*
+.producto {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../img/fresas-background.jpg');
+    background-size: contain;
+    background-position: center;
+}
+*/
 /* Contenedor principal del login */
 .login-container {
     width: 90%;
