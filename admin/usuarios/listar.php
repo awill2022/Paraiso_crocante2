@@ -40,7 +40,7 @@ if (isset($_GET['error'])) {
 }
 
 try {
-    $sql = "SELECT id, username, nombre_completo, rol, activo
+    $sql = "SELECT id, username, nombre, rol, activo
             FROM usuarios
             ORDER BY username ASC";
     $result = $conn->query($sql);
@@ -62,8 +62,9 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Usuarios</title>
-    <link rel="stylesheet" href="../../assets/css/style.css"> <!-- Estilos base y FontAwesome -->
+    <link rel="stylesheet" href="../../assets/css/style.css"> <!-- Estilos base -->
     <link rel="stylesheet" href="../../assets/css/table_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="table-container">
@@ -92,7 +93,7 @@ try {
                     <tr>
                         <th>ID</th>
                         <th>Usuario (Username)</th>
-                        <th>Nombre Completo</th>
+                        <th>Nombre</th>
                         <th>Rol</th>
                         <th class="text-center">Estado</th>
                         <th class="text-center">Acciones</th>
@@ -103,7 +104,7 @@ try {
                         <tr>
                             <td><?php echo htmlspecialchars($usuario['id']); ?></td>
                             <td><?php echo htmlspecialchars($usuario['username']); ?></td>
-                            <td><?php echo htmlspecialchars($usuario['nombre_completo'] ?: 'N/A'); ?></td>
+                            <td><?php echo htmlspecialchars($usuario['nombre'] ?: 'N/A'); ?></td>
                             <td><?php echo htmlspecialchars(ucfirst($usuario['rol'])); ?></td>
                             <td class="text-center">
                                 <?php if ($usuario['activo']): ?>

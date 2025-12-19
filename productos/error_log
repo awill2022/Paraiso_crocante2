@@ -1,0 +1,72 @@
+[07-Aug-2025 04:31:54 UTC] Temp file: /tmp/phphJAOj9
+[07-Aug-2025 04:31:54 UTC] Destino: /home/parahyvc/public_html/paraiso_crocante/assets/img/productos/producto-1754541114.png
+[07-Aug-2025 04:37:58 UTC] Temp file: /tmp/phpHE2TBB
+[07-Aug-2025 04:37:58 UTC] Destino: /home/parahyvc/public_html/Paraiso_crocante/assets/img/productos/producto-1754541478.png
+[16-Aug-2025 05:05:01 UTC] PHP Warning:  Undefined variable $componentes_persistentes in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 379
+[16-Aug-2025 05:05:01 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 379
+[16-Aug-2025 05:12:52 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 69
+[16-Aug-2025 05:13:31 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 69
+[16-Aug-2025 05:14:12 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 69
+[16-Aug-2025 05:14:59 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 71
+[16-Aug-2025 05:16:02 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 64
+[16-Aug-2025 05:16:07 UTC] PHP Parse error:  syntax error, unexpected token "{" in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 64
+[17-Aug-2025 23:07:55 UTC] PHP Warning:  include(../database/db.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 2
+[17-Aug-2025 23:07:55 UTC] PHP Warning:  include(): Failed opening '../database/db.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 2
+[17-Aug-2025 23:07:55 UTC] PHP Warning:  Undefined variable $conn in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 51
+[17-Aug-2025 23:07:55 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 51
+[17-Aug-2025 23:09:01 UTC] PHP Warning:  Undefined variable $conn in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 52
+[17-Aug-2025 23:09:01 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:52
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 52
+[17-Aug-2025 23:09:29 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 4
+[17-Aug-2025 23:09:53 UTC] PHP Warning:  Undefined variable $db in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 5
+[17-Aug-2025 23:09:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function getConnection() on null in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 5
+[17-Aug-2025 23:10:10 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 4
+[17-Aug-2025 23:10:40 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'parahyvc_paraisocrocante.receta_insumos' doesn't exist in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(14): mysqli->prepare()
+#1 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(64): calcularCostoReceta()
+#2 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 14
+[17-Aug-2025 23:11:27 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ri.cantidad' in 'SELECT' in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(14): mysqli->prepare()
+#1 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(64): calcularCostoReceta()
+#2 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 14
+[17-Aug-2025 23:11:56 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ri.receta_id' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(14): mysqli->prepare()
+#1 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(64): calcularCostoReceta()
+#2 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 14
+[17-Aug-2025 23:12:19 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ri.insumo_id' in 'ON' in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(14): mysqli->prepare()
+#1 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(64): calcularCostoReceta()
+#2 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 14
+[17-Aug-2025 23:13:16 UTC] PHP Warning:  Undefined variable $lista_recursos in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 44
+[17-Aug-2025 23:13:16 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 44
+[17-Aug-2025 23:13:16 UTC] PHP Warning:  Undefined variable $lista_recursos in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 71
+[17-Aug-2025 23:13:16 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 71
+[17-Aug-2025 23:42:58 UTC] PHP Warning:  move_uploaded_file(uploads/1755474178_IMG_20250806_142234_101.jpg): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 19
+[17-Aug-2025 23:42:58 UTC] PHP Warning:  move_uploaded_file(): Unable to move &quot;/tmp/phpvg8VfV&quot; to &quot;uploads/1755474178_IMG_20250806_142234_101.jpg&quot; in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 19
+[17-Aug-2025 23:42:58 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'costo' in 'INSERT INTO' in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php:59
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php(59): mysqli->prepare()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/productos/agregar.php on line 59

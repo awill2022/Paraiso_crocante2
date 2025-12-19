@@ -1,0 +1,5 @@
+Options -Indexes
+<Files "login.php">
+    Require all granted
+</Files>
+DirectoryIndex login.php

@@ -30,6 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Fresas con Crema</title>
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -46,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <?php endif; ?>
         
-        <form action="index.php" method="post" id="loginForm">
+        <form action="login.php" method="post" id="loginForm">
             <div class="form-group">
                 <label for="username"><i class="fas fa-user"></i> Usuario:</label>
                 <input type="text" id="username" name="username" required placeholder="Ingresa tu usuario">

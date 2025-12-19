@@ -136,15 +136,32 @@ try {
     // --- FIN VALIDACIONES ---
 
     // --- INICIO OPERACIONES DE ESCRITURA ---
-    // Insertar venta principal
-    $stmt_venta = $conn->prepare("INSERT INTO ventas (usuario_id, total, metodo_pago, fecha) VALUES (?, ?, ?, NOW())");
-    $stmt_venta->bind_param("ids", $usuario_id, $total_recalculado_backend, $metodo_pago);
-    $stmt_venta->execute();
-    $venta_id = $conn->insert_id;
-    if ($venta_id <= 0) {
-        throw new Exception("Error crítico: No se pudo registrar la venta principal.");
-    }
-    $stmt_venta->close();
+    // 🔍 Buscar si hay una caja abierta para este usuario
+$stmt_caja = $conn->prepare("SELECT id FROM cierres_caja WHERE usuario_id = ? AND fecha_cierre IS NULL LIMIT 1");
+$stmt_caja->bind_param("i", $usuario_id);
+$stmt_caja->execute();
+$result_caja = $stmt_caja->get_result();
+$caja_abierta = $result_caja->fetch_assoc();
+$stmt_caja->close();
+
+// Si no hay caja abierta, no se permite registrar la venta
+if (!$caja_abierta) {
+    throw new Exception("No hay una caja abierta. Debes abrir una caja antes de registrar ventas.");
+}
+
+$caja_id = intval($caja_abierta['id']);
+
+// 🧾 Registrar la venta vinculada con la caja actual
+$stmt_venta = $conn->prepare("INSERT INTO ventas (usuario_id, caja_id, total, metodo_pago, fecha) VALUES (?, ?, ?, ?, NOW())");
+$stmt_venta->bind_param("iids", $usuario_id, $caja_id, $total_recalculado_backend, $metodo_pago);
+$stmt_venta->execute();
+$venta_id = $conn->insert_id;
+
+if ($venta_id <= 0) {
+    throw new Exception("Error crítico: No se pudo registrar la venta principal.");
+}
+$stmt_venta->close();
+
 
     // Insertar detalles de la venta
     $stmt_detalle = $conn->prepare("INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio) VALUES (?, ?, ?, ?)");
@@ -156,6 +173,12 @@ try {
         }
     }
     $stmt_detalle->close();
+
+    // 🔄 Actualizar total de ventas en la caja actual
+$update_total_caja = $conn->prepare("UPDATE cierres_caja SET total_ventas = total_ventas + ? WHERE id = ?");
+$update_total_caja->bind_param("di", $total_recalculado_backend, $caja_id);
+$update_total_caja->execute();
+$update_total_caja->close();
 
     // Descontar stock de insumos
     if (!empty($necesidades_insumos_agregadas)) {

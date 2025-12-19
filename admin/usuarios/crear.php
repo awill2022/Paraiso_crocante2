@@ -8,7 +8,7 @@ protegerPaginaAdmin();
 $db = new Database();
 $conn = $db->getConnection();
 
-$nombre_completo_persistente = '';
+$nombre_persistente = '';
 $username_persistente = '';
 // No persistir contraseñas
 $rol_persistente = '';
@@ -18,10 +18,10 @@ $errores = [];
 $mensaje_exito = '';
 
 // Roles válidos - se podrían cargar de BD o config si fuera más complejo
-$roles_validos = ['administrador', 'cajero'];
+$roles_validos = ['administrador', 'cajero', 'cocinero'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_completo_persistente = trim($_POST['nombre_completo']);
+    $nombre_persistente = trim($_POST['nombre']);
     $username_persistente = trim($_POST['username']);
     $password = $_POST['password']; // No trim, la contraseña puede tener espacios intencionales
     $password_confirm = $_POST['password_confirm'];
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $activo_persistente = isset($_POST['activo']) ? (int)$_POST['activo'] : 0;
 
     // Validaciones
-    if (strlen($nombre_completo_persistente) > 255) {
+    if (strlen($nombre_persistente) > 255) {
         $errores[] = "El nombre completo no puede exceder los 255 caracteres.";
     }
 
@@ -78,15 +78,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errores[] = "Error crítico al hashear la contraseña.";
         } else {
             try {
-                $sql = "INSERT INTO usuarios (username, password, nombre_completo, rol, activo) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO usuarios (username, password, nombre, rol, activo) VALUES (?, ?, ?, ?, ?)";
                 $stmt_insert = $conn->prepare($sql);
                 // El nombre completo puede ser NULL si está vacío, o se guarda cadena vacía.
-                // Si la DB permite NULL para nombre_completo y se prefiere:
-                // $nombre_completo_db = !empty($nombre_completo_persistente) ? $nombre_completo_persistente : null;
+                // Si la DB permite NULL para nombre y se prefiere:
+                // $nombre_db = !empty($nombre_persistente) ? $nombre_persistente : null;
                 $stmt_insert->bind_param("ssssi",
                     $username_persistente,
                     $password_hashed,
-                    $nombre_completo_persistente, // Usar directamente, se guarda como "" si está vacío
+                    $nombre_persistente, // Usar directamente, se guarda como "" si está vacío
                     $rol_persistente,
                     $activo_persistente
                 );
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // exit;
                     $mensaje_exito = "Usuario '" . htmlspecialchars($username_persistente) . "' creado correctamente.";
                     // Limpiar campos para nuevo ingreso, excepto quizás 'rol' o 'activo' si se quieren defaults
-                    $nombre_completo_persistente = '';
+                    $nombre_persistente = '';
                     $username_persistente = '';
                     $rol_persistente = ''; // O mantener el último rol seleccionado
                     $activo_persistente = '1';
@@ -162,8 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form action="crear.php" method="post">
             <div class="form-group">
-                <label for="nombre_completo">Nombre Completo (Opcional):</label>
-                <input type="text" id="nombre_completo" name="nombre_completo" value="<?php echo htmlspecialchars($nombre_completo_persistente); ?>">
+                <label for="nombre">Nombre (Opcional):</label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($nombre_persistente); ?>">
             </div>
 
             <div class="form-group">

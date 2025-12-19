@@ -1,117 +1,126 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once '../includes/config.php';
 require_once '../includes/functions.php';
 
-protegerPagina();
+protegerPagina(); // Asegura que el usuario esté logueado
 
 $db = new Database();
 $conn = $db->getConnection();
 
-$insumo_id = 0;
 $nombre_persistente = '';
 $unidad_medida_persistente = '';
 $stock_actual_persistente = '';
 $stock_minimo_persistente = '';
+$precio_unitario_persistente = '';
 $errores = [];
 $mensaje_exito = '';
 
-// Obtener ID del insumo de GET
+// Unidades de medida predefinidas
+$unidades_medida = [
+    'ml' => 'Mililitros (ml)',
+    'g' => 'Gramos (g)',
+    'unidad' => 'Unidad/Pieza',
+    'l' => 'Litros (l)',
+    'kg' => 'Kilogramos (kg)'
+];
+
+// Obtener ID del insumo
 if (isset($_GET['id'])) {
     $insumo_id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
     if ($insumo_id === false || $insumo_id <= 0) {
         header("Location: listar_insumos.php?error=invalid_id");
         exit;
     }
-} else if (!isset($_POST['id'])) { // Si no hay ID en GET ni en POST (para persistencia tras error)
+} elseif (isset($_POST['id'])) {
+    $insumo_id = filter_var($_POST['id'], FILTER_VALIDATE_INT);
+} else {
     header("Location: listar_insumos.php?error=no_id");
     exit;
 }
 
-// Procesamiento del formulario POST para actualizar
+// Procesar formulario POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $insumo_id = filter_var($_POST['id'], FILTER_VALIDATE_INT); // Re-validar ID de POST
     $nombre_persistente = trim($_POST['nombre']);
-    $unidad_medida_persistente = trim($_POST['unidad_medida']);
+    $unidad_medida_persistente = $_POST['unidad_medida'];
     $stock_actual_persistente = trim($_POST['stock_actual']);
     $stock_minimo_persistente = trim($_POST['stock_minimo']);
+    $precio_unitario_persistente = trim($_POST['precio_unitario']);
 
-    if ($insumo_id === false || $insumo_id <= 0) {
-        $errores[] = "ID de insumo inválido.";
-    }
+    // Validaciones
     if (empty($nombre_persistente)) {
         $errores[] = "El nombre del insumo es obligatorio.";
-    } elseif (strlen($nombre_persistente) > 255) {
-        $errores[] = "El nombre del insumo no puede exceder los 255 caracteres.";
     }
-
-    if (empty($unidad_medida_persistente)) {
-        $errores[] = "La unidad de medida es obligatoria.";
-    } elseif (strlen($unidad_medida_persistente) > 50) {
-        $errores[] = "La unidad de medida no puede exceder los 50 caracteres.";
+    if (!array_key_exists($unidad_medida_persistente, $unidades_medida)) {
+        $errores[] = "Unidad de medida no válida.";
     }
-
-    if ($stock_actual_persistente === '') {
-        $errores[] = "El stock actual es obligatorio.";
-    } elseif (!is_numeric($stock_actual_persistente) || floatval($stock_actual_persistente) < 0) {
+    if (!is_numeric($stock_actual_persistente) || $stock_actual_persistente < 0) {
         $errores[] = "El stock actual debe ser un número no negativo.";
     } else {
-        $stock_actual_persistente = number_format(floatval($stock_actual_persistente), 2, '.', '');
+        $stock_actual_persistente = (float)$stock_actual_persistente;
     }
-
-    if ($stock_minimo_persistente !== '' && (!is_numeric($stock_minimo_persistente) || floatval($stock_minimo_persistente) < 0)) {
-        $errores[] = "El stock mínimo debe ser un número no negativo si se especifica.";
-    } elseif ($stock_minimo_persistente === '') {
-        $stock_minimo_persistente = '0.00';
+    if ($stock_minimo_persistente === '') {
+        $stock_minimo_persistente = 0.00;
+    } elseif (!is_numeric($stock_minimo_persistente) || $stock_minimo_persistente < 0) {
+        $errores[] = "El stock mínimo debe ser un número no negativo.";
     } else {
-        $stock_minimo_persistente = number_format(floatval($stock_minimo_persistente), 2, '.', '');
+        $stock_minimo_persistente = (float)$stock_minimo_persistente;
+    }
+    if (!is_numeric($precio_unitario_persistente) || $precio_unitario_persistente < 0) {
+        $errores[] = "El precio unitario es obligatorio y debe ser un número no negativo.";
+    } else {
+        $precio_unitario_persistente = (float)$precio_unitario_persistente;
     }
 
+    // Actualizar en la base de datos
     if (empty($errores)) {
-        try {
-            $stmt = $conn->prepare("UPDATE insumos SET nombre = ?, unidad_medida = ?, stock_actual = ?, stock_minimo = ? WHERE id = ?");
-            $stmt->bind_param("ssddi", $nombre_persistente, $unidad_medida_persistente, $stock_actual_persistente, $stock_minimo_persistente, $insumo_id);
-
-            if ($stmt->execute()) {
-                if ($stmt->affected_rows > 0) {
-                    header("Location: listar_insumos.php?success=updated");
-                    exit;
-                } else {
-                    // No afectó filas, podría ser que no hubo cambios o el ID no existe (aunque se carga antes)
-                    $mensaje_exito = "No se realizaron cambios en el insumo (o los datos son iguales).";
-                }
+        $stmt = $conn->prepare("UPDATE insumos SET nombre = ?, unidad_medida = ?, stock_actual = ?, stock_minimo = ?, precio_unitario = ? WHERE id = ?");
+        $stmt->bind_param(
+            "ssdddi",
+            $nombre_persistente,
+            $unidad_medida_persistente,
+            $stock_actual_persistente,
+            $stock_minimo_persistente,
+            $precio_unitario_persistente,
+            $insumo_id
+        );
+        if ($stmt->execute()) {
+            if ($stmt->affected_rows > 0) {
+                header("Location: listar_insumos.php?success=updated");
+                exit;
             } else {
-                $errores[] = "Error al actualizar el insumo: " . $stmt->error;
+                $mensaje_exito = "No se realizaron cambios (o los datos son iguales).";
             }
-            $stmt->close();
-        } catch (Exception $e) {
-            $errores[] = "Error de base de datos: " . $e->getMessage();
-        }
-    }
-} elseif ($insumo_id > 0) { // Cargar datos para GET request (primera carga del formulario)
-    try {
-        $stmt = $conn->prepare("SELECT nombre, unidad_medida, stock_actual, stock_minimo FROM insumos WHERE id = ?");
-        $stmt->bind_param("i", $insumo_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows === 1) {
-            $insumo = $result->fetch_assoc();
-            $nombre_persistente = $insumo['nombre'];
-            $unidad_medida_persistente = $insumo['unidad_medida'];
-            $stock_actual_persistente = number_format($insumo['stock_actual'], 2, '.', '');
-            $stock_minimo_persistente = number_format($insumo['stock_minimo'], 2, '.', '');
         } else {
-            header("Location: listar_insumos.php?error=not_found");
-            exit;
+            $errores[] = "Error al actualizar: " . $stmt->error;
         }
         $stmt->close();
-    } catch (Exception $e) {
-        $errores[] = "Error al cargar el insumo: " . $e->getMessage();
-        // Podríamos mostrar un error más genérico o redirigir
     }
+} else {
+    // Cargar datos existentes
+    $stmt = $conn->prepare("SELECT nombre, unidad_medida, stock_actual, stock_minimo, precio_unitario FROM insumos WHERE id = ?");
+    $stmt->bind_param("i", $insumo_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows === 1) {
+        $insumo = $result->fetch_assoc();
+        $nombre_persistente = $insumo['nombre'];
+        $unidad_medida_persistente = $insumo['unidad_medida'];
+        $stock_actual_persistente = $insumo['stock_actual'];
+        $stock_minimo_persistente = $insumo['stock_minimo'];
+        $precio_unitario_persistente = $insumo['precio_unitario'];
+    } else {
+        header("Location: listar_insumos.php?error=not_found");
+        exit;
+    }
+    $stmt->close();
 }
 
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -119,58 +128,77 @@ $conn->close();
     <title>Editar Insumo</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/styles_productos.css">
-     <style>
+    <style>
         .form-container { max-width: 600px; margin: 40px auto; padding: 20px; }
-        .alert { margin-bottom: 15px; }
+        .product-alert { margin-bottom: 15px; padding: 10px; border-radius: 5px; }
+        .product-alert.error { background: #f8d7da; color: #842029; }
+        .product-alert.success { background: #d1e7dd; color: #0f5132; }
+        .product-form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        .product-button-container { margin-top: 20px; }
+        .product-btn { padding: 10px 20px; margin-right: 10px; text-decoration: none; display: inline-block; }
+        .product-btn.cancel { background: #ccc; color: #000; }
+        .product-btn:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
-    <div class="form-container product-form-container">
-        <h1>Editar Insumo #<?php echo htmlspecialchars($insumo_id); ?></h1>
+<div class="form-container product-form-container">
+    <h1>Editar Insumo #<?php echo htmlspecialchars($insumo_id); ?></h1>
 
-        <?php if (!empty($errores)): ?>
-            <div class="product-alert error">
-                <p><strong>Por favor, corrija los siguientes errores:</strong></p>
-                <ul>
-                    <?php foreach ($errores as $error_msg): ?>
-                        <li><?php echo htmlspecialchars($error_msg); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+    <?php if (!empty($errores)): ?>
+        <div class="product-alert error">
+            <ul>
+                <?php foreach ($errores as $e): ?>
+                    <li><?php echo htmlspecialchars($e); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-        <?php if ($mensaje_exito && empty($errores)): // Mostrar solo si no hay errores nuevos ?>
-            <div class="product-alert info"><?php echo htmlspecialchars($mensaje_exito); ?></div>
-        <?php endif; ?>
+    <?php if ($mensaje_exito): ?>
+        <div class="product-alert success"><?php echo htmlspecialchars($mensaje_exito); ?></div>
+    <?php endif; ?>
 
-        <form action="editar_insumo.php" method="post">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($insumo_id); ?>">
+    <form action="editar_insumo.php?id=<?php echo htmlspecialchars($insumo_id); ?>" method="post">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($insumo_id); ?>">
 
-            <div class="product-form-group">
-                <label for="nombre">Nombre del Insumo:</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($nombre_persistente); ?>" required>
-            </div>
+        <div class="product-form-group">
+            <label for="nombre">Nombre del Insumo:</label>
+            <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($nombre_persistente); ?>" required>
+        </div>
 
-            <div class="product-form-group">
-                <label for="unidad_medida">Unidad de Medida (ej: gr, ml, unidad):</label>
-                <input type="text" id="unidad_medida" name="unidad_medida" value="<?php echo htmlspecialchars($unidad_medida_persistente); ?>" required>
-            </div>
+        <div class="product-form-group">
+            <label for="unidad_medida">Unidad de Medida:</label>
+            <select id="unidad_medida" name="unidad_medida" required>
+                <?php foreach ($unidades_medida as $valor => $texto): ?>
+                    <option value="<?php echo $valor; ?>" <?php echo ($unidad_medida_persistente == $valor) ? 'selected' : ''; ?>>
+                        <?php echo $texto; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-            <div class="product-form-group">
-                <label for="stock_actual">Stock Actual:</label>
-                <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_actual_persistente); ?>" required>
-            </div>
+        <div class="product-form-group">
+            <label for="stock_actual">Stock Actual:</label>
+            <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_actual_persistente); ?>" required>
+        </div>
 
-            <div class="product-form-group">
-                <label for="stock_minimo">Stock Mínimo (Opcional):</label>
-                <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_minimo_persistente); ?>">
-            </div>
+        <div class="product-form-group">
+            <label for="stock_minimo">Stock Mínimo:</label>
+            <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_minimo_persistente); ?>">
+        </div>
 
-            <div class="product-button-container">
-                <button type="submit" class="product-btn">Actualizar Insumo</button>
-                <a href="listar_insumos.php" class="product-btn cancel">Cancelar y Volver a la Lista</a>
-            </div>
-        </form>
-    </div>
+        <div class="product-form-group">
+            <label for="precio_unitario">Precio Unitario ($):</label>
+            <input type="number" id="precio_unitario" name="precio_unitario"  value="<?php echo htmlspecialchars($precio_unitario_persistente); ?>" required>
+        </div>
+
+        <div class="product-button-container">
+            <button type="submit" class="product-btn">Actualizar Insumo</button>
+            <a href="listar_insumos.php" class="product-btn cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>

@@ -1,0 +1,55 @@
+[13-Aug-2025 03:41:13 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function conectar() in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 18
+[14-Aug-2025 00:38:08 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function conectar() in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 18
+[14-Aug-2025 00:40:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function conectar() in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 19
+[14-Aug-2025 00:42:21 UTC] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_stmt::fetch() expects exactly 0 arguments, 1 given in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:31
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php(31): mysqli_stmt->fetch()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 31
+[14-Aug-2025 01:20:26 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function iniciarconexion() in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:6
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 6
+[14-Aug-2025 01:21:34 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 4
+[14-Aug-2025 01:21:34 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 4
+[14-Aug-2025 01:45:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'parahyvc_paraisocrocante.receta' doesn't exist in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:51
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php(51): mysqli->prepare()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 51
+[14-Aug-2025 01:46:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli::lastInsertId() in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:54
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 54
+[14-Aug-2025 01:50:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'costo_total' in 'INSERT INTO' in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php:56
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php(56): mysqli->prepare()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 56
+[14-Aug-2025 05:03:20 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:22 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:23 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:24 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:24 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:24 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:24 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:25 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:25 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:25 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:25 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:26 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:26 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:28 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231
+[14-Aug-2025 05:03:28 UTC] PHP Parse error:  Unclosed '{' on line 90 in /home/parahyvc/public_html/Paraiso_crocante/costos/guardar_receta.php on line 231

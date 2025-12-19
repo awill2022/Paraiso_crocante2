@@ -9,7 +9,7 @@ $db = new Database();
 $conn = $db->getConnection();
 
 $usuario_id = 0;
-$nombre_completo_persistente = '';
+$nombre_persistente = '';
 $username_persistente = ''; // Se cargará y será readonly
 $rol_persistente = '';
 $activo_persistente = '';
@@ -18,7 +18,7 @@ $errores = [];
 $mensaje_exito = ''; // Para mensajes como "no hubo cambios"
 
 // Roles válidos
-$roles_validos = ['administrador', 'cajero'];
+$roles_validos = ['administrador', 'cajero', 'cocinero'];
 
 // Obtener ID del usuario de GET o POST (para persistencia tras error)
 if (isset($_GET['id'])) {
@@ -35,7 +35,7 @@ if (!$usuario_id || $usuario_id <= 0) {
 // Procesamiento del formulario POST para actualizar
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $usuario_id ya fue validado arriba
-    $nombre_completo_persistente = trim($_POST['nombre_completo']);
+    $nombre_persistente = trim($_POST['nombre']);
     $username_persistente = trim($_POST['username']); // Aunque sea readonly, se recibe
     $rol_persistente = trim($_POST['rol']);
     $activo_persistente = isset($_POST['activo']) ? (int)$_POST['activo'] : 0;
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password_para_actualizar_hashed = null;
 
     // Validaciones
-    if (strlen($nombre_completo_persistente) > 255) {
+    if (strlen($nombre_persistente) > 255) {
         $errores[] = "El nombre completo no puede exceder los 255 caracteres.";
     }
     // Username no se valida aquí para unicidad si es readonly. Si fuera editable, se necesitaría.
@@ -102,13 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errores)) {
         try {
             if ($password_para_actualizar_hashed) {
-                $sql = "UPDATE usuarios SET nombre_completo = ?, rol = ?, activo = ?, password = ? WHERE id = ?";
+                $sql = "UPDATE usuarios SET nombre = ?, rol = ?, activo = ?, password = ? WHERE id = ?";
                 $stmt_update = $conn->prepare($sql);
-                $stmt_update->bind_param("ssisi", $nombre_completo_persistente, $rol_persistente, $activo_persistente, $password_para_actualizar_hashed, $usuario_id);
+                $stmt_update->bind_param("ssisi", $nombre_persistente, $rol_persistente, $activo_persistente, $password_para_actualizar_hashed, $usuario_id);
             } else {
-                $sql = "UPDATE usuarios SET nombre_completo = ?, rol = ?, activo = ? WHERE id = ?";
+                $sql = "UPDATE usuarios SET nombre = ?, rol = ?, activo = ? WHERE id = ?";
                 $stmt_update = $conn->prepare($sql);
-                $stmt_update->bind_param("ssii", $nombre_completo_persistente, $rol_persistente, $activo_persistente, $usuario_id);
+                $stmt_update->bind_param("ssii", $nombre_persistente, $rol_persistente, $activo_persistente, $usuario_id);
             }
 
             if ($stmt_update->execute()) {
@@ -133,14 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') { // Cargar datos para el formulario (solo en GET inicial)
     try {
-        $stmt_load = $conn->prepare("SELECT username, nombre_completo, rol, activo FROM usuarios WHERE id = ?");
+        $stmt_load = $conn->prepare("SELECT username, nombre, rol, activo FROM usuarios WHERE id = ?");
         $stmt_load->bind_param("i", $usuario_id);
         $stmt_load->execute();
         $result_load = $stmt_load->get_result();
         if ($result_load->num_rows === 1) {
             $usuario = $result_load->fetch_assoc();
             $username_persistente = $usuario['username'];
-            $nombre_completo_persistente = $usuario['nombre_completo'];
+            $nombre_persistente = $usuario['nombre'];
             $rol_persistente = $usuario['rol'];
             $activo_persistente = $usuario['activo'];
         } else {
@@ -213,8 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-                <label for="nombre_completo">Nombre Completo (Opcional):</label>
-                <input type="text" id="nombre_completo" name="nombre_completo" value="<?php echo htmlspecialchars($nombre_completo_persistente); ?>">
+                <label for="nombre">Nombre (Opcional):</label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($nombre_persistente); ?>">
             </div>
 
             <fieldset>

@@ -1,0 +1,121 @@
+[05-Aug-2025 19:53:22 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'parahyvc_paraiso'@'localhost' to database 'parahyvc_paraisocrocante' in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php:30
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(30): mysqli->__construct()
+#1 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(23): Database->connect()
+#2 /home/parahyvc/public_html/Paraiso_crocante/includes/functions.php(6): Database->__construct()
+#3 /home/parahyvc/public_html/Paraiso_crocante/login.php(19): login()
+#4 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php on line 30
+[05-Aug-2025 20:09:52 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'parahyvc_paraiso'@'localhost' to database 'parahyvc_paraisocrocante' in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php:30
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(30): mysqli->__construct()
+#1 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(23): Database->connect()
+#2 /home/parahyvc/public_html/Paraiso_crocante/includes/functions.php(6): Database->__construct()
+#3 /home/parahyvc/public_html/Paraiso_crocante/login.php(19): login()
+#4 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php on line 30
+[05-Aug-2025 20:15:30 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'parahyvc_paraiso'@'localhost' to database 'parahyvc_paraisocrocante' in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php:30
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(30): mysqli->__construct()
+#1 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(23): Database->connect()
+#2 /home/parahyvc/public_html/Paraiso_crocante/includes/functions.php(6): Database->__construct()
+#3 /home/parahyvc/public_html/Paraiso_crocante/login.php(19): login()
+#4 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php on line 30
+[05-Aug-2025 20:15:38 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'parahyvc_paraiso'@'localhost' to database 'parahyvc_paraisocrocante' in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php:30
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(30): mysqli->__construct()
+#1 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(23): Database->connect()
+#2 /home/parahyvc/public_html/Paraiso_crocante/includes/functions.php(6): Database->__construct()
+#3 /home/parahyvc/public_html/Paraiso_crocante/login.php(19): login()
+#4 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php on line 30
+[05-Aug-2025 20:16:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'parahyvc_paraiso'@'localhost' to database 'parahyvc_paraisocrocante' in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php:30
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(30): mysqli->__construct()
+#1 /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php(23): Database->connect()
+#2 /home/parahyvc/public_html/Paraiso_crocante/includes/functions.php(6): Database->__construct()
+#3 /home/parahyvc/public_html/Paraiso_crocante/login.php(19): login()
+#4 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/includes/Database.php on line 30
+[08-Aug-2025 04:27:13 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'parahyvc_paraisocrocante.ingredientes' doesn't exist in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/dashboard.php(14): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 14
+[08-Aug-2025 04:29:42 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'nombre' in 'SELECT' in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/dashboard.php(14): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 14
+[08-Aug-2025 04:30:48 UTC] PHP Warning:  Undefined variable $productosBajoStock in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 151
+[08-Aug-2025 04:30:48 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on null in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:151
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 151
+[08-Aug-2025 04:33:49 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'stock' in 'SELECT' in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/dashboard.php(14): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 14
+[08-Aug-2025 04:34:33 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'stock' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/dashboard.php(14): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 14
+[08-Aug-2025 04:34:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'stock' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:14
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/dashboard.php(14): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 14
+[17-Sep-2025 18:33:43 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[17-Sep-2025 18:34:43 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[17-Sep-2025 18:37:50 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[17-Sep-2025 18:38:06 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[22-Sep-2025 17:59:57 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[22-Sep-2025 18:02:20 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[22-Sep-2025 18:03:07 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 01:52:07 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 01:52:48 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:18:44 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:18:53 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:18:54 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:19:27 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:21:35 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:21:54 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:25:06 UTC] PHP Warning:  Undefined array key "stock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 154
+[24-Sep-2025 02:35:40 UTC] PHP Warning:  Undefined array key "id" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 95
+[24-Sep-2025 02:35:40 UTC] PHP Warning:  Undefined array key "id" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 95
+[24-Sep-2025 02:35:40 UTC] PHP Warning:  Undefined array key "id" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 95
+[24-Sep-2025 02:36:56 UTC] PHP Parse error:  syntax error, unexpected variable "$productosBajoStock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 16
+[24-Sep-2025 02:37:13 UTC] PHP Parse error:  syntax error, unexpected variable "$productosBajoStock" in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 16
+[05-Oct-2025 19:10:44 UTC] PHP Warning:  require_once(includes/CajaController.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 5
+[05-Oct-2025 19:10:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/CajaController.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/dashboard.php on line 5
+[05-Oct-2025 22:56:06 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'parahyvc_paraisocrocante.caja' doesn't exist in /home/parahyvc/public_html/Paraiso_crocante/caja.php:13
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/caja.php(13): mysqli->prepare()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/caja.php on line 13
+[05-Oct-2025 22:57:24 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'parahyvc_paraisocrocante.caja' doesn't exist in /home/parahyvc/public_html/Paraiso_crocante/caja.php:13
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/caja.php(13): mysqli->prepare()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/caja.php on line 13
+[06-Oct-2025 00:15:05 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'caja_id' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/caja.php:102
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/caja.php(102): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/caja.php on line 102
+[06-Oct-2025 00:19:45 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'caja_id' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/caja.php:103
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/caja.php(103): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/caja.php on line 103
+[06-Oct-2025 00:19:51 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'caja_id' in 'WHERE' in /home/parahyvc/public_html/Paraiso_crocante/caja.php:103
+Stack trace:
+#0 /home/parahyvc/public_html/Paraiso_crocante/caja.php(103): mysqli->query()
+#1 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/caja.php on line 103

@@ -27,16 +27,21 @@ class Database {
      * Establece la conexión con la base de datos
      */
     private function connect() {
-        $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database);
-        
-        // Verificar conexión
-        if ($this->conn->connect_error) {
-            die("Error de conexión: " . $this->conn->connect_error);
-        }
-        
-        // Establecer el conjunto de caracteres
-        $this->conn->set_charset("utf8mb4");
+    $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database);
+    
+    // Verificar conexión
+    if ($this->conn->connect_error) {
+        die("Error de conexión: " . $this->conn->connect_error);
     }
+
+    // Establecer el conjunto de caracteres
+    $this->conn->set_charset("utf8mb4");
+
+    // 🕐 Establecer zona horaria local (Ecuador)
+    date_default_timezone_set('America/Guayaquil');
+    $this->conn->query("SET time_zone = '-05:00'");
+}
+
     
     /**
      * Obtiene la conexión a la base de datos

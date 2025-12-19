@@ -1,0 +1,86 @@
+[06-Aug-2025 04:01:51 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[06-Aug-2025 04:01:51 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[06-Aug-2025 04:01:51 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 00:41:01 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 00:41:01 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 00:41:01 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 00:41:07 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 00:41:07 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 00:41:07 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 00:42:30 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 00:42:30 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 00:42:30 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 00:46:25 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 00:46:25 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 00:46:25 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 02:11:47 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 02:11:47 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 02:11:47 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 02:13:04 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 02:13:04 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 02:13:04 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 56
+[07-Aug-2025 04:28:35 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 04:28:35 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 04:42:43 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 04:42:43 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[07-Aug-2025 04:57:56 UTC] PHP Warning:  Undefined variable $success_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 46
+[07-Aug-2025 04:57:56 UTC] PHP Warning:  Undefined variable $error_message in /home/parahyvc/public_html/Paraiso_crocante/insumos/listar_insumos.php on line 49
+[14-Aug-2025 02:30:49 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 02:31:18 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 02:31:43 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 02:33:20 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:06:22 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:06:29 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:06:30 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:07:35 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:07:37 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:07:38 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:08:37 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:08:51 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:09:00 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:11:03 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 60
+[14-Aug-2025 04:12:23 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 64
+[14-Aug-2025 04:12:25 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 64
+[14-Aug-2025 04:16:33 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/agregar_insumo.php on line 7
+[14-Aug-2025 05:10:07 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[14-Aug-2025 05:10:07 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[14-Aug-2025 05:10:49 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[14-Aug-2025 05:10:49 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[17-Sep-2025 18:22:56 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[17-Sep-2025 18:22:56 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 01:54:02 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 01:54:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 01:54:19 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 01:54:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 02:01:20 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 02:01:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 02:01:47 UTC] PHP Warning:  require_once(../conexion/conexion.php): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 02:01:47 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion/conexion.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 2
+[24-Sep-2025 02:04:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function iniciarconexion() in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/parahyvc/public_html/Paraiso_crocante/insumos/editar_insumo.php on line 7

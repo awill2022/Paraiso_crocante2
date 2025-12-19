@@ -1,0 +1,2 @@
+[22-Sep-2025 13:02:04 America/Guayaquil] PHP Warning:  move_uploaded_file(../assets/comprobantes_gastos/comprobante_gasto_1_1758564124.jpg): Failed to open stream: No such file or directory in /home/parahyvc/public_html/Paraiso_crocante/gastos/registrar_gasto.php on line 113
+[22-Sep-2025 13:02:04 America/Guayaquil] PHP Warning:  move_uploaded_file(): Unable to move &quot;/tmp/phpoeZXKw&quot; to &quot;../assets/comprobantes_gastos/comprobante_gasto_1_1758564124.jpg&quot; in /home/parahyvc/public_html/Paraiso_crocante/gastos/registrar_gasto.php on line 113

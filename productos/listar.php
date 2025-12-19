@@ -42,7 +42,7 @@ if (isset($_GET['error'])) {
 }
 
 try {
-    $sql = "SELECT p.id, p.nombre, p.precio, p.foto, p.activo, c.nombre AS categoria_nombre
+    $sql = "SELECT p.id, p.nombre, p.precio, p.costo, p.foto, p.activo, c.nombre AS categoria_nombre
             FROM productos p
             LEFT JOIN categorias c ON p.categoria_id = c.id
             ORDER BY p.nombre ASC";
@@ -101,6 +101,7 @@ try {
                         <th>Nombre</th>
                         <th>Categoría</th>
                         <th class="text-right">Precio</th>
+                        <th class="text-right">Costo</th>
                         <th class="text-center">Estado</th>
                         <th class="text-center">Acciones</th>
                     </tr>
@@ -119,6 +120,7 @@ try {
                             <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
                             <td><?php echo htmlspecialchars($producto['categoria_nombre'] ?? 'N/A'); ?></td>
                             <td class="text-right">$<?php echo htmlspecialchars(number_format($producto['precio'], 2)); ?></td>
+                            <td class="text-right">$<?php echo htmlspecialchars(number_format($producto['costo'], 2)); ?></td>
                             <td class="text-center">
                                 <?php if ($producto['activo']): ?>
                                     <span class="status status-active">Activo</span>
