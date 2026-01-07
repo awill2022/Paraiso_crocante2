@@ -33,11 +33,20 @@ if (isset($_POST['abrir_caja'])) {
 if (isset($_POST['cerrar_caja']) && $cajaActiva) {
     $caja_id = $cajaActiva['id'];
 
-    $totalVentas = $conn->query("SELECT SUM(total) AS total FROM ventas WHERE caja_id = $caja_id")->fetch_assoc()['total'] ?? 0;
+    // Calcular totales desglosados
+    $sqlVentas = "SELECT 
+                    SUM(CASE WHEN metodo_pago = 'efectivo' THEN total ELSE 0 END) as total_efectivo,
+                    SUM(total) AS total_general
+                  FROM ventas WHERE caja_id = $caja_id";
+    
+    $resVentas = $conn->query($sqlVentas)->fetch_assoc();
+    $totalVentasGeneral = $resVentas['total_general'] ?? 0;
+    $totalVentasEfectivo = $resVentas['total_efectivo'] ?? 0;
+    
     $totalGastos = $conn->query("SELECT SUM(monto) AS total FROM gastos WHERE caja_id = $caja_id")->fetch_assoc()['total'] ?? 0;
-    $saldoInicial = $cajaActiva['saldo_inicial'];
-
-    $saldoFinal = $saldoInicial + $totalVentas - $totalGastos;
+    
+    // Saldo Final = Dinero Físico (Inicial + Ventas Efectivo - Gastos)
+    $saldoFinal = $saldoInicial + $totalVentasEfectivo - $totalGastos;
 
     $sql = "UPDATE cierres_caja SET 
                 fecha_cierre = NOW(),
@@ -46,7 +55,9 @@ if (isset($_POST['cerrar_caja']) && $cajaActiva) {
                 estado = 'cerrada'
             WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ddi", $totalVentas, $saldoFinal, $caja_id);
+    // Guardamos el total general de ventas en 'total_ventas' para registro histórico
+    // Pero el 'saldo_final' refleja el efectivo en caja
+    $stmt->bind_param("ddi", $totalVentasGeneral, $saldoFinal, $caja_id);
     $stmt->execute();
 
     header("Location: caja.php");
@@ -99,19 +110,46 @@ body {
     <?php else: ?>
         <?php
             $caja_id = $cajaActiva['id'];
-            $totalVentas = $conn->query("SELECT SUM(total) AS total FROM ventas WHERE caja_id = $caja_id")->fetch_assoc()['total'] ?? 0;
+            
+            // Totales por método de pago
+            $sqlVentas = "SELECT 
+                            SUM(CASE WHEN metodo_pago = 'efectivo' THEN total ELSE 0 END) as total_efectivo,
+                            SUM(CASE WHEN metodo_pago = 'de_una' OR metodo_pago = 'tarjeta' THEN total ELSE 0 END) as total_de_una,
+                            SUM(total) AS total_general
+                          FROM ventas WHERE caja_id = $caja_id";
+            
+            $resVentas = $conn->query($sqlVentas)->fetch_assoc();
+            $totalEfectivo = $resVentas['total_efectivo'] ?? 0;
+            $totalDeUna = $resVentas['total_de_una'] ?? 0;
+            $totalVentas = $resVentas['total_general'] ?? 0;
+
             $totalGastos = $conn->query("SELECT SUM(monto) AS total FROM gastos WHERE caja_id = $caja_id")->fetch_assoc()['total'] ?? 0;
-            $saldoFinal = $cajaActiva['saldo_inicial'] + $totalVentas - $totalGastos;
+            
+            // El saldo final en caja física suele ser solo lo que hay en efectivo
+            // Si 'De Una' es transferencia, no suma al efectivo físico en caja.
+            // Asumiremos que el Saldo Final Esperado se refiere al dinero FÍSICO (Efectivo) + Saldo Inicial - Gastos
+            
+            $saldoFinalEfectivoEsperado = $cajaActiva['saldo_inicial'] + $totalEfectivo - $totalGastos;
         ?>
         <div class="summary">
             <h3>📅 Caja Abierta el <?php echo date('d/m/Y H:i', strtotime($cajaActiva['fecha_apertura'])); ?></h3>
             <p class="info">Saldo Inicial: <strong>$<?php echo number_format($cajaActiva['saldo_inicial'], 2); ?></strong></p>
-            <p class="info">Ventas: <strong>$<?php echo number_format($totalVentas, 2); ?></strong></p>
-            <p class="info">Gastos: <strong>$<?php echo number_format($totalGastos, 2); ?></strong></p>
-            <p class="info">Saldo Final Esperado: 
-                <span class="<?php echo $saldoFinal >= $cajaActiva['saldo_inicial'] ? 'positive' : 'negative'; ?>">
-                    $<?php echo number_format($saldoFinal, 2); ?>
+            
+            <hr>
+            <p class="info" style="color: green;">💵 Ventas Efectivo: <strong>$<?php echo number_format($totalEfectivo, 2); ?></strong></p>
+            <p class="info" style="color: #d62828;">📱 Ventas De Una: <strong>$<?php echo number_format($totalDeUna, 2); ?></strong></p>
+            <p class="info"><strong>Total Ventas: $<?php echo number_format($totalVentas, 2); ?></strong></p>
+            <hr>
+            
+            <p class="info">Gastos (Salidas): <strong>$<?php echo number_format($totalGastos, 2); ?></strong></p>
+            
+            <p class="info" style="font-size: 1.2em; margin-top: 15px;">
+                Efectivo Esperado en Caja: 
+                <span class="<?php echo $saldoFinalEfectivoEsperado >= 0 ? 'positive' : 'negative'; ?>">
+                    $<?php echo number_format($saldoFinalEfectivoEsperado, 2); ?>
                 </span>
+                <br>
+                <small style="font-size: 0.6em; color: gray;">(Saldo Inicial + Ventas Efectivo - Gastos)</small>
             </p>
 
             <form method="POST">

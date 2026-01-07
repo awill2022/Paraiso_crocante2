@@ -24,7 +24,7 @@ try {
     $usuario_id = intval($input['usuario_id']); // Sanitizar IDs
     $total_enviado = floatval($input['total']); // Sanitizar total
 
-    if (empty($productos) || $total_enviado <= 0 || !in_array($metodo_pago, ['efectivo', 'tarjeta']) || $usuario_id <= 0) {
+    if (empty($productos) || $total_enviado <= 0 || !in_array($metodo_pago, ['efectivo', 'de_una']) || $usuario_id <= 0) {
         throw new Exception('Datos de la venta no válidos o incompletos.');
     }
 

@@ -229,6 +229,29 @@ if ($es_admin) {
 
     <div class="sections">
         <?php if ($es_admin): ?>
+        
+        <!-- SECCIÓN DE ESTADÍSTICAS (CONTADOR DE VISITAS) -->
+        <section class="section">
+            <h2>Estadísticas de Visitas</h2>
+            <?php
+            $totalVisitas = 0;
+            try {
+                $resVisitas = $conn->query("SELECT COUNT(*) as total FROM historial_visitas");
+                if ($resVisitas && $rowVisitas = $resVisitas->fetch_assoc()) {
+                    $totalVisitas = $rowVisitas['total'];
+                }
+            } catch (Exception $e) {
+                // Error silencioso
+            }
+            ?>
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3em; font-weight: bold; color: #FF6B6B;">
+                    <?php echo number_format($totalVisitas); ?>
+                </div>
+                <p style="color: #666; margin: 0;">Visitas al Inicio</p>
+            </div>
+        </section>
+
         <section class="section">
             <h2>Insumos con Stock Bajo</h2>
             <?php if ($productosBajoStock && $productosBajoStock->num_rows > 0): ?>

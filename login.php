@@ -2,6 +2,25 @@
 session_start();
 require_once 'includes/config.php';
 
+// --- LOGICA DE CONTADOR DE VISITAS ---
+try {
+    require_once 'includes/Database.php';
+    $db = new Database();
+    $conn = $db->getConnection();
+    
+    // Obtener IP del cliente
+    $ip = $_SERVER['REMOTE_ADDR'];
+    // Insertar visita
+    $stmt = $conn->prepare("INSERT INTO historial_visitas (fecha_visita, ip_usuario) VALUES (NOW(), ?)");
+    $stmt->bind_param("s", $ip);
+    $stmt->execute();
+    $stmt->close();
+} catch (Exception $e) {
+    // Silencioso: Si falla la base de datos, no detener la carga de la página
+    // error_log("Error registrando visita: " . $e->getMessage());
+}
+// -------------------------------------
+
 if(isset($_SESSION['usuario_id'])) {
     header("Location: dashboard.php");
     exit;

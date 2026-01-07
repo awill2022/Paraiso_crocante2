@@ -79,8 +79,9 @@ $productos = $conn->query("SELECT p.*, c.nombre AS categoria_nombre FROM product
                     <button class="metodo-btn active" data-metodo="efectivo">
                         <i class="fas fa-money-bill-wave"></i> Efectivo
                     </button>
-                    <button class="metodo-btn" data-metodo="tarjeta">
-                        <i class="fas fa-credit-card"></i> Tarjeta
+                    <!-- Cambiado de Tarjeta a De Una -->
+                    <button class="metodo-btn" data-metodo="de_una" style="background-color: #d62828;"> <!-- Color distintivo opcional -->
+                        <i class="fas fa-mobile-alt"></i> De Una
                     </button>
                 </div>
                 
