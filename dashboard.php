@@ -301,6 +301,7 @@ if ($es_admin) {
                 <!-- Solo Admin -->
                 <?php if ($es_admin): ?>
                 <a href="productos/agregar.php" class="action-btn"><span>🍓</span><span>Agregar Producto</span></a>
+                <a href="compras/index.php" class="action-btn"><span>🛒</span><span>Registrar Compras<br/>/ Inventario</span></a>
                 <a href="productos/listar.php" class="action-btn"><span>📋</span><span>Gestionar Productos</span></a>
                 <a href="admin/usuarios/listar.php" class="action-btn"><span>🧑‍💼</span><span>Administrar Usuarios</span></a>
                 <a href="insumos/agregar_insumo.php" class="action-btn"><span>🌾</span><span>Agregar Insumo</span></a>
