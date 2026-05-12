@@ -23,14 +23,14 @@ if ($conn->query($sql) === TRUE) {
 // $conn->query("UPDATE ventas SET metodo_pago = 'de_una' WHERE metodo_pago = 'tarjeta'");
 
 // Agregar tablas para compras
-$db->executeQuery("CREATE TABLE IF NOT EXISTS compras_insumos (
+$conn->query("CREATE TABLE IF NOT EXISTS compras_insumos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     proveedor VARCHAR(255) NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10,2) NOT NULL
 )");
 
-$db->executeQuery("CREATE TABLE IF NOT EXISTS detalle_compra (
+$conn->query("CREATE TABLE IF NOT EXISTS detalle_compra (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_compra INT NOT NULL,
     id_insumo INT NOT NULL,
@@ -40,5 +40,5 @@ $db->executeQuery("CREATE TABLE IF NOT EXISTS detalle_compra (
     FOREIGN KEY (id_insumo) REFERENCES insumos(id)
 )");
 
-echo "<p>Base de datos lista para aceptar 'De Una'. Puedes borrar este archivo ahora.</p>";
+echo "<p>Base de datos actualizada con las tablas de compras. Puedes borrar este archivo ahora.</p>";
 ?>

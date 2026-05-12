@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/parahyvc/public_html/Paraiso_crocante/
+    - /bin/cp -R . $DEPLOYPATH
