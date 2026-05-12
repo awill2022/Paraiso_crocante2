@@ -2,100 +2,56 @@
 require_once '../includes/config.php';
 require_once '../includes/functions.php';
 
-protegerPagina(); // Asegura que el usuario esté logueado
+protegerPagina();
 
 $db = new Database();
 $conn = $db->getConnection();
 
 $errores = [];
 $mensaje_exito = '';
-$valores_persistentes = [
-    'nombre' => '',
-    'unidad_medida' => 'ml', // Valor por defecto
-    'precio_paquete' => '0.00',
+$valores = [
+    'nombre'           => '',
+    'unidad_medida'    => 'ml',
+    'precio_paquete'   => '0.00',
     'cantidad_paquete' => '1.00',
-    'stock_actual' => '0.00',
-    'stock_minimo' => '0.00'
+    'stock_actual'     => '0.00',
+    'stock_minimo'     => '0.00'
 ];
 
-// Unidades de medida predefinidas
 $unidades_medida = [
-    'ml' => 'Mililitros (ml)',
-    'g' => 'Gramos (g)',
-    'unidad' => 'Unidad/Pieza',
-    'l' => 'Litros (l)',
-    'kg' => 'Kilogramos (kg)'
+    'ml'     => 'Mililitros (ml)',
+    'g'      => 'Gramos (g)',
+    'unidad' => 'Unidad / Pieza',
+    'l'      => 'Litros (l)',
+    'kg'     => 'Kilogramos (kg)'
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recoger y limpiar datos
-    $valores_persistentes['nombre'] = trim($_POST['nombre']);
-    $valores_persistentes['unidad_medida'] = $_POST['unidad_medida'];
-    $valores_persistentes['precio_paquete'] = trim($_POST['precio_paquete']);
-    $valores_persistentes['cantidad_paquete'] = trim($_POST['cantidad_paquete']);
-    $valores_persistentes['stock_actual'] = trim($_POST['stock_actual']);
-    $valores_persistentes['stock_minimo'] = trim($_POST['stock_minimo']);
+    $valores['nombre']           = trim($_POST['nombre']);
+    $valores['unidad_medida']    = $_POST['unidad_medida'];
+    $valores['precio_paquete']   = trim($_POST['precio_paquete']);
+    $valores['cantidad_paquete'] = trim($_POST['cantidad_paquete']);
+    $valores['stock_actual']     = trim($_POST['stock_actual']);
+    $valores['stock_minimo']     = trim($_POST['stock_minimo']);
 
-    // Validaciones
-    if (empty($valores_persistentes['nombre'])) {
-        $errores[] = "El nombre del insumo es obligatorio.";
-    } elseif (strlen($valores_persistentes['nombre']) > 255) {
-        $errores[] = "El nombre del insumo no puede exceder los 255 caracteres.";
+    if (empty($valores['nombre']))          $errores[] = "El nombre del insumo es obligatorio.";
+    elseif (strlen($valores['nombre']) > 255) $errores[] = "El nombre no puede exceder 255 caracteres.";
+    if (!array_key_exists($valores['unidad_medida'], $unidades_medida)) $errores[] = "Unidad de medida no válida.";
+
+    foreach (['precio_paquete' => 'Precio del paquete', 'cantidad_paquete' => 'Cantidad del paquete', 'stock_actual' => 'Stock actual', 'stock_minimo' => 'Stock mínimo'] as $campo => $nombre) {
+        if (!is_numeric($valores[$campo])) $errores[] = "$nombre debe ser un número válido.";
+        elseif (floatval($valores[$campo]) < 0) $errores[] = "$nombre no puede ser negativo.";
     }
-
-    if (!array_key_exists($valores_persistentes['unidad_medida'], $unidades_medida)) {
-        $errores[] = "Unidad de medida no válida.";
-    }
-
-    // Validación de precios y cantidades
-    $campos_numericos = [
-        'precio_paquete' => 'Precio del paquete',
-        'cantidad_paquete' => 'Cantidad del paquete',
-        'stock_actual' => 'Stock actual',
-        'stock_minimo' => 'Stock mínimo'
-    ];
-
-    foreach ($campos_numericos as $campo => $nombre) {
-        if (!is_numeric($valores_persistentes[$campo])) {
-            $errores[] = "$nombre debe ser un número válido.";
-        } elseif (floatval($valores_persistentes[$campo]) < 0) {
-            $errores[] = "$nombre no puede ser negativo.";
-        }
-    }
-
-    // Validación especial para cantidad_paquete
-    if (floatval($valores_persistentes['cantidad_paquete']) <= 0) {
-        $errores[] = "La cantidad del paquete debe ser mayor a cero.";
-    }
+    if (floatval($valores['cantidad_paquete']) <= 0) $errores[] = "La cantidad del paquete debe ser mayor a cero.";
 
     if (empty($errores)) {
         try {
-            // Calcular precio unitario automáticamente
-            $precio_unitario = floatval($valores_persistentes['precio_paquete']) / floatval($valores_persistentes['cantidad_paquete']);
-            
-            $stmt = $conn->prepare("INSERT INTO insumos 
-                                  (nombre, unidad_medida, precio_unitario, stock_actual, stock_minimo) 
-                                  VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssddd", 
-                $valores_persistentes['nombre'],
-                $valores_persistentes['unidad_medida'],
-                $precio_unitario,
-                $valores_persistentes['stock_actual'],
-                $valores_persistentes['stock_minimo']
-            );
-
+            $precio_unitario = floatval($valores['precio_paquete']) / floatval($valores['cantidad_paquete']);
+            $stmt = $conn->prepare("INSERT INTO insumos (nombre, unidad_medida, precio_unitario, stock_actual, stock_minimo) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssddd", $valores['nombre'], $valores['unidad_medida'], $precio_unitario, $valores['stock_actual'], $valores['stock_minimo']);
             if ($stmt->execute()) {
-                $mensaje_exito = "Insumo '" . htmlspecialchars($valores_persistentes['nombre']) . "' agregado correctamente.";
-                
-                // Resetear campos (excepto unidad de medida)
-                $valores_persistentes = [
-                    'nombre' => '',
-                    'unidad_medida' => $valores_persistentes['unidad_medida'], // Mantener la misma unidad
-                    'precio_paquete' => '0.00',
-                    'cantidad_paquete' => '1.00',
-                    'stock_actual' => '0.00',
-                    'stock_minimo' => '0.00'
-                ];
+                $mensaje_exito = "Insumo '" . htmlspecialchars($valores['nombre']) . "' agregado correctamente. Precio unitario calculado: $" . number_format($precio_unitario, 4);
+                $valores = ['nombre' => '', 'unidad_medida' => $valores['unidad_medida'], 'precio_paquete' => '0.00', 'cantidad_paquete' => '1.00', 'stock_actual' => '0.00', 'stock_minimo' => '0.00'];
             } else {
                 $errores[] = "Error al agregar el insumo: " . $stmt->error;
             }
@@ -107,93 +63,130 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Insumo</title>
-      <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
-    <style>
-        .form-container { max-width: 600px; margin: 40px auto; padding: 20px; }
-        .alert { margin-bottom: 15px; }
-        .info-text { font-size: 0.9em; color: #666; margin-top: 5px; }
-    </style>
+    <title>Agregar Insumo - Paraíso Crocante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
-<body>
-    <div class="form-container product-form-container">
-        <h1>Agregar Nuevo Insumo</h1>
+<body class="app-body">
 
-        <?php if (!empty($errores)): ?>
-            <div class="product-alert error">
-                <p><strong>Por favor, corrija los siguientes errores:</strong></p>
-                <ul>
-                    <?php foreach ($errores as $error_msg): ?>
-                        <li><?php echo htmlspecialchars($error_msg); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+<header class="app-header">
+    <div>
+        <h1>🌾 Agregar Nuevo Insumo</h1>
+        <p>El precio unitario se calcula automáticamente.</p>
+    </div>
+    <nav>
+        <a href="listar_insumos.php" class="btn-nav">Ver Lista</a>
+        <a href="../dashboard.php" class="btn-nav">← Dashboard</a>
+    </nav>
+</header>
 
-        <?php if (isset($mensaje_exito)): ?>
-            <div class="product-alert success">
-                <?php echo htmlspecialchars($mensaje_exito); ?>
-            </div>
-        <?php endif; ?>
+<div class="app-page narrow">
 
+    <?php if (!empty($errores)): ?>
+    <div class="app-alert error">
+        <span>❌</span>
+        <div>
+            <strong>Por favor, corrija los siguientes errores:</strong>
+            <ul><?php foreach ($errores as $e): ?><li><?php echo htmlspecialchars($e); ?></li><?php endforeach; ?></ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($mensaje_exito): ?>
+    <div class="app-alert success">✅ <?php echo $mensaje_exito; ?></div>
+    <?php endif; ?>
+
+    <div class="app-card">
         <form action="agregar_insumo.php" method="post">
-            <div class="product-form-group">
-                <label for="nombre">Nombre del Insumo:</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($valores_persistentes['nombre']); ?>" required>
+
+            <div class="form-group">
+                <label class="form-label" for="nombre">Nombre del Insumo *</label>
+                <input class="form-control" type="text" id="nombre" name="nombre"
+                       value="<?php echo htmlspecialchars($valores['nombre']); ?>" required>
             </div>
 
-            <div class="product-form-group">
-                <label for="unidad_medida">Unidad de Medida:</label>
-                <select id="unidad_medida" name="unidad_medida" required>
-                    <?php foreach ($unidades_medida as $valor => $texto): ?>
-                        <option value="<?php echo $valor; ?>" <?php echo ($valores_persistentes['unidad_medida'] == $valor) ? 'selected' : ''; ?>>
-                            <?php echo $texto; ?>
-                        </option>
+            <div class="form-group">
+                <label class="form-label" for="unidad_medida">Unidad de Medida *</label>
+                <select class="form-control" id="unidad_medida" name="unidad_medida" required>
+                    <?php foreach ($unidades_medida as $val => $texto): ?>
+                    <option value="<?php echo $val; ?>" <?php echo ($valores['unidad_medida'] == $val) ? 'selected' : ''; ?>>
+                        <?php echo $texto; ?>
+                    </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <div class="product-form-group">
-                <label for="precio_paquete">Precio del Paquete ($):</label>
-                <input type="number" id="precio_paquete" name="precio_paquete" step="0.01" min="0" 
-                       value="<?php echo htmlspecialchars($valores_persistentes['precio_paquete']); ?>" required>
-                <div class="info-text">Precio total que pagas por el paquete/bolsa/envase</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="precio_paquete">Precio del Paquete ($) *</label>
+                    <input class="form-control" type="number" id="precio_paquete" name="precio_paquete"
+                           step="0.01" min="0"
+                           value="<?php echo htmlspecialchars($valores['precio_paquete']); ?>"
+                           required oninput="calcPrecio()">
+                    <div class="form-hint">Precio total que pagas por el paquete/bolsa/envase</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="cantidad_paquete">Cantidad en el Paquete *</label>
+                    <input class="form-control" type="number" id="cantidad_paquete" name="cantidad_paquete"
+                           step="0.01" min="0.01"
+                           value="<?php echo htmlspecialchars($valores['cantidad_paquete']); ?>"
+                           required oninput="calcPrecio()">
+                    <div class="form-hint">Cantidad total contenida en el paquete</div>
+                </div>
             </div>
 
-            <div class="product-form-group">
-                <label for="cantidad_paquete">Cantidad en el Paquete:</label>
-                <input type="number" id="cantidad_paquete" name="cantidad_paquete" step="0.01" min="0.01" 
-                       value="<?php echo htmlspecialchars($valores_persistentes['cantidad_paquete']); ?>" required>
-                <div class="info-text">Cantidad total contenida en el paquete (en la unidad seleccionada)</div>
+            <!-- Precio unitario calculado (visual) -->
+            <div class="form-group">
+                <label class="form-label">Precio Unitario Calculado</label>
+                <input class="form-control" type="text" id="precio_unitario_display" readonly
+                       placeholder="Se calcula automáticamente"
+                       style="background:#fff8e6; color:#7d5a00; font-weight:700; border-color:#f0b429;">
+                <div class="form-hint">= Precio del paquete ÷ Cantidad del paquete</div>
             </div>
 
-            <div class="product-form-group">
-                <label for="stock_actual">Stock Actual:</label>
-                <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" 
-                       value="<?php echo htmlspecialchars($valores_persistentes['stock_actual']); ?>" required>
-                <div class="info-text">Cantidad actual en inventario (en la unidad seleccionada)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="stock_actual">Stock Actual *</label>
+                    <input class="form-control" type="number" id="stock_actual" name="stock_actual"
+                           step="0.01" min="0"
+                           value="<?php echo htmlspecialchars($valores['stock_actual']); ?>" required>
+                    <div class="form-hint">Cantidad actual en inventario</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="stock_minimo">Stock Mínimo</label>
+                    <input class="form-control" type="number" id="stock_minimo" name="stock_minimo"
+                           step="0.01" min="0"
+                           value="<?php echo htmlspecialchars($valores['stock_minimo']); ?>">
+                    <div class="form-hint">Alerta cuando el stock baje de este valor</div>
+                </div>
             </div>
 
-            <div class="product-form-group">
-                <label for="stock_minimo">Stock Mínimo (Opcional):</label>
-                <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0" 
-                       value="<?php echo htmlspecialchars($valores_persistentes['stock_minimo']); ?>">
-                <div class="info-text">Cantidad mínima deseada en inventario</div>
-            </div>
-
-            <div class="product-button-container">
-                <button type="submit" class="product-btn">Guardar Insumo</button>
-                <a href="listar_insumos.php" class="product-btn cancel">Ver Lista de Insumos</a>
-                <a href="../dashboard.php" class="product-btn cancel">Volver al Dashboard</a>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary btn-lg">💾 Guardar Insumo</button>
+                <a href="listar_insumos.php" class="btn btn-secondary">Ver Lista</a>
+                <a href="../dashboard.php" class="btn btn-secondary">← Dashboard</a>
             </div>
         </form>
     </div>
+</div>
+
+<script>
+function calcPrecio() {
+    const precio = parseFloat(document.getElementById('precio_paquete').value) || 0;
+    const cant   = parseFloat(document.getElementById('cantidad_paquete').value) || 0;
+    const display = document.getElementById('precio_unitario_display');
+    if (cant > 0) {
+        display.value = '$' + (precio / cant).toFixed(4);
+    } else {
+        display.value = '';
+    }
+}
+calcPrecio();
+</script>
 </body>
 </html>

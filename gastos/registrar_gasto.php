@@ -123,87 +123,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Nuevo Gasto</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css"> <!-- Reutilizar si es adecuado -->
-    <style>
-        .form-container { max-width: 700px; margin: 40px auto; padding: 20px; }
-        .checkbox-group { display: flex; align-items: center; margin-bottom: 15px;}
-        .checkbox-group input[type="checkbox"] { margin-right: 8px; width:auto; }
-        .checkbox-group label { margin-bottom: 0; font-weight: normal;}
-    </style>
+    <title>Registrar Gasto - Paraíso Crocante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
-<body>
-    <div class="form-container product-form-container">
-        <h1>Registrar Nuevo Gasto</h1>
+<body class="app-body">
 
-        <?php if (!empty($errores)): ?>
-            <div class="product-alert error">
-                <p><strong>Por favor, corrija los siguientes errores:</strong></p>
-                <ul>
-                    <?php foreach ($errores as $error_msg): ?>
-                        <li><?php echo htmlspecialchars($error_msg); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+<header class="app-header">
+    <div>
+        <h1>💸 Registrar Nuevo Gasto</h1>
+        <p>Se descuenta automáticamente del balance de caja.</p>
+    </div>
+    <nav>
+        <a href="listar_gastos.php" class="btn-nav">Ver Gastos</a>
+        <a href="../dashboard.php" class="btn-nav">← Dashboard</a>
+    </nav>
+</header>
 
-        <?php if ($mensaje_exito): ?>
-            <div class="product-alert success">
-                <?php echo htmlspecialchars($mensaje_exito); ?>
-            </div>
-        <?php endif; ?>
+<div class="app-page narrow">
 
+    <?php if (!empty($errores)): ?>
+    <div class="app-alert error">
+        <span>❌</span>
+        <div>
+            <strong>Por favor, corrija los siguientes errores:</strong>
+            <ul><?php foreach ($errores as $error_msg): ?><li><?php echo htmlspecialchars($error_msg); ?></li><?php endforeach; ?></ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($mensaje_exito): ?>
+    <div class="app-alert success">✅ <?php echo htmlspecialchars($mensaje_exito); ?></div>
+    <?php endif; ?>
+
+    <div class="app-card">
         <form action="registrar_gasto.php" method="post" enctype="multipart/form-data">
-            <div class="product-form-group">
-                <label for="fecha">Fecha del Gasto:</label>
-                <input type="date" id="fecha" name="fecha" value="<?php echo htmlspecialchars($fecha_persistente); ?>" required>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="fecha">Fecha del Gasto *</label>
+                    <input class="form-control" type="date" id="fecha" name="fecha"
+                           value="<?php echo htmlspecialchars($fecha_persistente); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="monto">Monto ($) *</label>
+                    <input class="form-control" type="number" id="monto" name="monto"
+                           step="0.01" min="0.01"
+                           value="<?php echo htmlspecialchars($monto_persistente); ?>" required>
+                </div>
             </div>
 
-            <div class="product-form-group">
-                <label for="monto">Monto:</label>
-                <input type="number" id="monto" name="monto" step="0.01" min="0.01" value="<?php echo htmlspecialchars($monto_persistente); ?>" required>
+            <div class="form-group">
+                <label class="form-label" for="descripcion">Descripción *</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
             </div>
 
-            <div class="product-form-group">
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($descripcion_persistente); ?></textarea>
-            </div>
-
-            <div class="product-form-group">
-                <label for="categoria_id">Categoría del Gasto:</label>
-                <select id="categoria_id" name="categoria_id" required>
+            <div class="form-group">
+                <label class="form-label" for="categoria_id">Categoría del Gasto *</label>
+                <select class="form-control" id="categoria_id" name="categoria_id" required>
                     <option value="">Seleccione una categoría...</option>
                     <?php foreach ($categorias_gasto as $categoria): ?>
-                        <option value="<?php echo $categoria['id']; ?>" <?php echo ($categoria_id_persistente == $categoria['id']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
-                        </option>
+                    <option value="<?php echo $categoria['id']; ?>"
+                        <?php echo ($categoria_id_persistente == $categoria['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($categoria['nombre']); ?>
+                    </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <div class="product-form-group">
-                <label for="proveedor">Proveedor (Opcional):</label>
-                <input type="text" id="proveedor" name="proveedor" value="<?php echo htmlspecialchars($proveedor_persistente); ?>">
+            <div class="form-group">
+                <label class="form-label" for="proveedor">Proveedor (Opcional)</label>
+                <input class="form-control" type="text" id="proveedor" name="proveedor"
+                       value="<?php echo htmlspecialchars($proveedor_persistente); ?>">
             </div>
 
-            <div class="product-form-group checkbox-group">
-                <input type="checkbox" id="recurrente" name="recurrente" value="1" <?php echo $recurrente_persistente ? 'checked' : ''; ?>>
-                <label for="recurrente">¿Es un gasto recurrente?</label>
+            <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" id="recurrente" name="recurrente" value="1"
+                       <?php echo $recurrente_persistente ? 'checked' : ''; ?>
+                       style="width:18px; height:18px; accent-color:#FF6B6B; flex-shrink:0;">
+                <label for="recurrente" style="margin:0; font-weight:500; color:#444; cursor:pointer;">
+                    ¿Es un gasto recurrente?
+                </label>
             </div>
 
-            <div class="product-form-group">
-                <label for="comprobante">Comprobante (Opcional - JPG, PNG, PDF, máx 5MB):</label>
-                <input type="file" id="comprobante" name="comprobante" accept="image/jpeg,image/png,application/pdf">
+            <div class="form-group">
+                <label class="form-label" for="comprobante">Comprobante (Opcional — JPG, PNG, PDF)</label>
+                <input class="form-control" type="file" id="comprobante" name="comprobante"
+                       accept="image/jpeg,image/png,application/pdf">
+                <div class="form-hint">Máximo 5 MB</div>
             </div>
 
-            <div class="product-button-container">
-                <button type="submit" class="product-btn">Guardar Gasto</button>
-                <!-- <a href="listar_gastos.php" class="product-btn cancel">Ver Lista de Gastos</a> -->
-                <a href="../dashboard.php" class="product-btn cancel" style="margin-left: 10px;">Volver al Dashboard</a>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary btn-lg">💾 Guardar Gasto</button>
+                <a href="../dashboard.php" class="btn btn-secondary">← Dashboard</a>
             </div>
         </form>
     </div>
+</div>
 <?php if(isset($conn)) $conn->close(); ?>
 </body>
 </html>

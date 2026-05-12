@@ -125,80 +125,91 @@ $conn->close();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Insumo</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/styles_productos.css">
-    <style>
-        .form-container { max-width: 600px; margin: 40px auto; padding: 20px; }
-        .product-alert { margin-bottom: 15px; padding: 10px; border-radius: 5px; }
-        .product-alert.error { background: #f8d7da; color: #842029; }
-        .product-alert.success { background: #d1e7dd; color: #0f5132; }
-        .product-form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
-        .product-button-container { margin-top: 20px; }
-        .product-btn { padding: 10px 20px; margin-right: 10px; text-decoration: none; display: inline-block; }
-        .product-btn.cancel { background: #ccc; color: #000; }
-        .product-btn:hover { opacity: 0.9; }
-    </style>
+    <title>Editar Insumo - Paraíso Crocante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
-<body>
-<div class="form-container product-form-container">
-    <h1>Editar Insumo #<?php echo htmlspecialchars($insumo_id); ?></h1>
+<body class="app-body">
+
+<header class="app-header">
+    <div>
+        <h1>✏️ Editar Insumo #<?php echo htmlspecialchars($insumo_id); ?></h1>
+        <p><?php echo htmlspecialchars($nombre_persistente); ?></p>
+    </div>
+    <nav>
+        <a href="listar_insumos.php" class="btn-nav">← Volver a Lista</a>
+        <a href="../dashboard.php" class="btn-nav">Dashboard</a>
+    </nav>
+</header>
+
+<div class="app-page narrow">
 
     <?php if (!empty($errores)): ?>
-        <div class="product-alert error">
-            <ul>
-                <?php foreach ($errores as $e): ?>
-                    <li><?php echo htmlspecialchars($e); ?></li>
-                <?php endforeach; ?>
-            </ul>
+    <div class="app-alert error">
+        <span>❌</span>
+        <div>
+            <strong>Corrija los errores:</strong>
+            <ul><?php foreach ($errores as $e): ?><li><?php echo htmlspecialchars($e); ?></li><?php endforeach; ?></ul>
         </div>
+    </div>
     <?php endif; ?>
 
     <?php if ($mensaje_exito): ?>
-        <div class="product-alert success"><?php echo htmlspecialchars($mensaje_exito); ?></div>
+    <div class="app-alert success">✅ <?php echo htmlspecialchars($mensaje_exito); ?></div>
     <?php endif; ?>
 
-    <form action="editar_insumo.php?id=<?php echo htmlspecialchars($insumo_id); ?>" method="post">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($insumo_id); ?>">
+    <div class="app-card">
+        <form action="editar_insumo.php?id=<?php echo htmlspecialchars($insumo_id); ?>" method="post">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($insumo_id); ?>">
 
-        <div class="product-form-group">
-            <label for="nombre">Nombre del Insumo:</label>
-            <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($nombre_persistente); ?>" required>
-        </div>
+            <div class="form-group">
+                <label class="form-label" for="nombre">Nombre del Insumo *</label>
+                <input class="form-control" type="text" id="nombre" name="nombre"
+                       value="<?php echo htmlspecialchars($nombre_persistente); ?>" required>
+            </div>
 
-        <div class="product-form-group">
-            <label for="unidad_medida">Unidad de Medida:</label>
-            <select id="unidad_medida" name="unidad_medida" required>
-                <?php foreach ($unidades_medida as $valor => $texto): ?>
+            <div class="form-group">
+                <label class="form-label" for="unidad_medida">Unidad de Medida *</label>
+                <select class="form-control" id="unidad_medida" name="unidad_medida" required>
+                    <?php foreach ($unidades_medida as $valor => $texto): ?>
                     <option value="<?php echo $valor; ?>" <?php echo ($unidad_medida_persistente == $valor) ? 'selected' : ''; ?>>
                         <?php echo $texto; ?>
                     </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <div class="product-form-group">
-            <label for="stock_actual">Stock Actual:</label>
-            <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_actual_persistente); ?>" required>
-        </div>
+            <div class="form-group">
+                <label class="form-label" for="precio_unitario">Precio Unitario ($) *</label>
+                <input class="form-control" type="number" id="precio_unitario" name="precio_unitario"
+                       step="0.0001" min="0"
+                       value="<?php echo htmlspecialchars($precio_unitario_persistente); ?>" required>
+                <div class="form-hint">Precio por unidad de medida (puede editarlo directamente)</div>
+            </div>
 
-        <div class="product-form-group">
-            <label for="stock_minimo">Stock Mínimo:</label>
-            <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0" value="<?php echo htmlspecialchars($stock_minimo_persistente); ?>">
-        </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="stock_actual">Stock Actual *</label>
+                    <input class="form-control" type="number" id="stock_actual" name="stock_actual"
+                           step="0.01" min="0"
+                           value="<?php echo htmlspecialchars($stock_actual_persistente); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="stock_minimo">Stock Mínimo</label>
+                    <input class="form-control" type="number" id="stock_minimo" name="stock_minimo"
+                           step="0.01" min="0"
+                           value="<?php echo htmlspecialchars($stock_minimo_persistente); ?>">
+                    <div class="form-hint">Alerta de stock bajo</div>
+                </div>
+            </div>
 
-        <div class="product-form-group">
-            <label for="precio_unitario">Precio Unitario ($):</label>
-            <input type="number" id="precio_unitario" name="precio_unitario"  value="<?php echo htmlspecialchars($precio_unitario_persistente); ?>" required>
-        </div>
-
-        <div class="product-button-container">
-            <button type="submit" class="product-btn">Actualizar Insumo</button>
-            <a href="listar_insumos.php" class="product-btn cancel">Cancelar</a>
-        </div>
-    </form>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary btn-lg">💾 Actualizar Insumo</button>
+                <a href="listar_insumos.php" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>
